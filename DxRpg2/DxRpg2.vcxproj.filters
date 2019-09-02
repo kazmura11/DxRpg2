@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="map\0.txt" />
+    <Text Include="map\1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Battle\AbstractBattleCharacter.cpp" />
+    <ClCompile Include="src\Battle\BattleAnimation.cpp" />
+    <ClCompile Include="src\Battle\BattleCharacter.cpp" />
+    <ClCompile Include="src\Battle\BattleMonster.cpp" />
+    <ClCompile Include="src\Battle\BattleProcess.cpp" />
+    <ClCompile Include="src\Map\AbstractMapCharacter.cpp" />
+    <ClCompile Include="src\Map\MapCityCharacter.cpp" />
+    <ClCompile Include="src\Map\MapMainCharacter.cpp" />
+    <ClCompile Include="src\Sequence\Game\Battle\Battle.cpp" />
+    <ClCompile Include="src\Sequence\Game\Map\Map.cpp" />
+    <ClCompile Include="src\AppMain.cpp" />
+    <ClCompile Include="src\Util\CsvMapReader.cpp" />
+    <ClCompile Include="src\Util\GameController.cpp" />
+    <ClCompile Include="src\Util\ResourceLoader.cpp" />
+    <ClCompile Include="src\Sequence\Game\Parent.cpp" />
+    <ClCompile Include="src\Battle\Board.cpp" />
+    <ClCompile Include="src\Battle\BattleGraph.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Battle\AbstractBattleCharacter.h" />
+    <ClInclude Include="src\Battle\BattleAnimation.h" />
+    <ClInclude Include="src\Battle\BattleCharacter.h" />
+    <ClInclude Include="src\Battle\BattleMonster.h" />
+    <ClInclude Include="src\Battle\BattleProcess.h" />
+    <ClInclude Include="src\Map\AbstractMapCharacter.h" />
+    <ClInclude Include="src\Map\MapCityCharacter.h" />
+    <ClInclude Include="src\Map\MapMainCharacter.h" />
+    <ClInclude Include="src\Sequence\Game\Battle\Battle.h" />
+    <ClInclude Include="src\Sequence\Game\Map\Map.h" />
+    <ClInclude Include="src\Sequence\Game\Child.h" />
+    <ClInclude Include="src\Sequence\Game\Parent.h" />
+    <ClInclude Include="src\Sequence\Child.h" />
+    <ClInclude Include="src\Sequence\Parent.h" />
+    <ClInclude Include="src\SharedCharacterStatus.h" />
+    <ClInclude Include="src\StdCommon.h" />
+    <ClInclude Include="src\Util\CsvMapReader.h" />
+    <ClInclude Include="src\Util\GameController.h" />
+    <ClInclude Include="src\Util\ResourceLoader.h" />
+    <ClInclude Include="src\Battle\Board.h" />
+    <ClInclude Include="src\Battle\BattleGraph.h" />
+  </ItemGroup>
+</Project>
