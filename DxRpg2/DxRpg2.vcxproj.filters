@@ -34,9 +34,7 @@
     <ClInclude Include="src\Map\MapMainCharacter.h" />
     <ClInclude Include="src\Sequence\Game\Battle\Battle.h" />
     <ClInclude Include="src\Sequence\Game\Map\Map.h" />
-    <ClInclude Include="src\Sequence\Game\Child.h" />
     <ClInclude Include="src\Sequence\Game\Parent.h" />
-    <ClInclude Include="src\Sequence\Child.h" />
     <ClInclude Include="src\Sequence\Parent.h" />
     <ClInclude Include="src\SharedCharacterStatus.h" />
     <ClInclude Include="src\StdCommon.h" />
@@ -45,5 +43,7 @@
     <ClInclude Include="src\Util\ResourceLoader.h" />
     <ClInclude Include="src\Battle\Board.h" />
     <ClInclude Include="src\Battle\BattleGraph.h" />
+    <ClInclude Include="src\Sequence\Game\IChild.h" />
+    <ClInclude Include="src\Sequence\IChild.h" />
   </ItemGroup>
 </Project>

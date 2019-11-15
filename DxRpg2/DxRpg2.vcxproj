@@ -114,14 +114,14 @@
     <ClInclude Include="src\SharedCharacterStatus.h" />
     <ClInclude Include="src\Battle\BattleAnimation.h" />
     <ClInclude Include="src\Battle\BattleProcess.h" />
-    <ClInclude Include="src\Sequence\Game\Child.h" />
+    <ClInclude Include="src\Sequence\Game\IChild.h" />
     <ClInclude Include="src\Sequence\Game\Parent.h" />
     <ClInclude Include="src\Battle\AbstractBattleCharacter.h" />
     <ClInclude Include="src\Util\CsvMapReader.h" />
     <ClInclude Include="src\Map\AbstractMapCharacter.h" />
     <ClInclude Include="src\Map\MapCityCharacter.h" />
     <ClInclude Include="src\Battle\BattleCharacter.h" />
-    <ClInclude Include="src\Sequence\Child.h" />
+    <ClInclude Include="src\Sequence\IChild.h" />
     <ClInclude Include="src\Sequence\Game\Battle\Battle.h" />
     <ClInclude Include="src\Battle\BattleMonster.h" />
     <ClInclude Include="src\Util\GameController.h" />

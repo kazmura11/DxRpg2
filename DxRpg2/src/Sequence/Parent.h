@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Child.h"
+#include "IChild.h"
 #include "Sequence/Game/Parent.h"
 
 namespace Sequence
@@ -57,6 +57,6 @@ namespace Sequence
 		Parent(const Parent&) { }
 		Parent& operator=(const Parent&) { }
 		NextSequence nextSequence_;
-		std::unique_ptr<Child> child_;
+		std::unique_ptr<IChild> child_;
 	};
 }

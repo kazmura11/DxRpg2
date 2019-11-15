@@ -22,5 +22,24 @@ public:
 	int equip_;
 	int level_;
 	int kind_;	// キャラクター・モンスターの種類
+
+	void initialize()
+	{
+#if _DEBUG
+		hp_ = 100;
+#else
+		hp_ = 1352;
+#endif
+		hpMax_ = 1352;
+		mp_ = 97;
+		mpMax_ = 102;
+		power_ = 20;
+		defense_ = 20;
+		strength_ = 20;
+		magic_ = 20;
+		weapon_ = 20;
+		equip_ = 20;
+		level_ = 10;
+	}
 };
 
