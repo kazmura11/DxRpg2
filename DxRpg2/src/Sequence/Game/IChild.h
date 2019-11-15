@@ -5,10 +5,9 @@ namespace Sequence
 	namespace Game
 	{
 		class Parent;
-		class Child
+		struct IChild
 		{
-		public:
-			virtual ~Child() { }
+			virtual ~IChild() { }
 			virtual void update(Parent*) = 0;
 		};
 	}

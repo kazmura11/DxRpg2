@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "StdCommon.h"
-#include "Sequence/Game/Child.h"
+#include "Sequence/Game/IChild.h"
 #include "SharedCharacterStatus.h"  // 不完全クラス型へのポインターが参照できないそうなので
 
 namespace Util
@@ -32,7 +32,7 @@ namespace Sequence
 				NextRestart,
 			};
 
-			class Battle : public Sequence::Game::Child
+			class Battle : public Sequence::Game::IChild
 			{
 			public:
 				Battle(SharedCharacterStatus *sharedStatus);

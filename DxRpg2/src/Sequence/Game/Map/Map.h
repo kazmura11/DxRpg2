@@ -1,17 +1,18 @@
 #pragma once
 #include <memory>
+#include <vector>
 #include "StdCommon.h"
-#include "Sequence/Game/Child.h"
+#include "Sequence/Game/IChild.h"
+#include "Map/MapMainCharacter.h"
+#include "Map/MapCityCharacter.h"
 
+class SharedCharacterStatus;
 namespace Util
 {
 	class CsvMapReader;
 	class ResourceLoader;
 }
-namespace Map
-{
-	class AbstractMapCharacter;
-}
+
 // 定数関連の情報
 namespace Sequence
 {
@@ -33,7 +34,7 @@ namespace Sequence
 			};
 
 			// ワールドマップ制御のクラス
-			class Map : public Sequence::Game::Child
+			class Map : public Sequence::Game::IChild
 			{
 			public:
 				enum NextSequence
@@ -41,12 +42,16 @@ namespace Sequence
 					NextMap,
 					NextBattle,
 				};
-				Map(Sequence::Game::Parent *parent, int stage);
+				Map(SharedCharacterStatus *scs, int stage);
 				~Map();
-				void update(Sequence::Game::Parent *parent) override;
+				void update(Parent *parent) override;
 
 			private:
-				Parent *parent_;
+				SharedCharacterStatus *scs_;
+				// ::を付けているのはどっちのMapかわからないため
+				std::unique_ptr<::Map::MapMainCharacter> mapMainChar_;
+				std::vector<std::unique_ptr<::Map::MapCityCharacter>> mapCityChar_;
+				
 				Util::ResourceLoader &rl_;
 				std::unique_ptr<Util::CsvMapReader> cmr_;
 				int isPassable_[YBlock * XBlock];	// 通行可能かどうかの情報(重要！)
@@ -56,8 +61,8 @@ namespace Sequence
 				void initMapState();
 				void initCharState();
 				void drawMap();
-				void moveCharacter();
-				void changeMap();
+				void moveCharacter(Parent *parent);
+				void changeMap(Parent *parent);
 				void drawCharacter();
 			};
 		}
