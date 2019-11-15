@@ -1,9 +1,7 @@
 #pragma once
 #include <memory>
 #include "Sequence/IChild.h"
-//#include "Map/MapMainCharacter.h"
-//#include "Map/MapCityCharacter.h"  // 配列があるからこれないとダメ
-#include "SharedCharacterStatus.h"  // 不完全クラス型へのポインターが参照できないそうなので
+#include "SharedCharacterStatus.h"  // for Pointer to incomplete class type
 
 namespace Sequence
 {

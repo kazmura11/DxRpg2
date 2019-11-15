@@ -9,11 +9,11 @@ namespace Util
 		return instance;
 	}
 
-	// FPS計測関数
 	void GameController::calcFps()
 	{
-		fps_[gCount_ % MetricTimes] = waitTime_;  // １周の時間を格納
-		if ((gCount_ % MetricTimes) == (MetricTimes - 1))  // 計測回数に達したら
+		fps_[gCount_ % MetricTimes] = waitTime_;
+		// if gCount_ reached to metric times... update avarage speed;
+		if ((gCount_ % MetricTimes) == (MetricTimes - 1))
 		{
 			frameSpdAvg = 0;
 			for (int i = 0; i < MetricTimes; i++)
@@ -24,29 +24,27 @@ namespace Util
 		}
 	}
 
-	// FPS表示
 	void GameController::graphFps()
 	{
-		if (frameSpdAvg != 0)	// 0割り禁止により、FPS平均が0じゃなかったらFPS表示
+		if (frameSpdAvg != 0)	// avoid dividing by zero
 		{
 			DxLib::DrawFormatString(0, 0, static_cast<int>(DxLib::GetColor(255, 255, 255)),
 				"FPS %.1f", 1000.0 / (double)(frameSpdAvg));
 		}
 	}
 
-	// FPS制御
 	void GameController::controlFps()
 	{
-		waitTime_ = DxLib::GetNowCount() - prevTime_; //１周の処理にかかった時間を計算
+		waitTime_ = DxLib::GetNowCount() - prevTime_; // calculate 1 loop time
 		if (prevTime_ == 0)
 		{
-			// t == 0 つまり一番最初に処理が行われたときは16を代入
 			waitTime_ = OneFrameMillsec;
 		}
-		prevTime_ = DxLib::GetNowCount();  // 現在の時刻を格納
-		if (OneFrameMillsec > waitTime_)  // １周かかった時間がFPS60つまり１周16msよりも早く行われたとき
+		prevTime_ = DxLib::GetNowCount();  // set current time
+		// adjust to 60 fps
+		if (OneFrameMillsec > waitTime_)
 		{
-			Sleep(static_cast<DWORD>(OneFrameMillsec - waitTime_));  // FPS60になるように、つまり１周16msまで待つ。
+			Sleep(static_cast<DWORD>(OneFrameMillsec - waitTime_));
 		}
 	}
 
@@ -126,29 +124,28 @@ namespace Util
 		return gCount_;
 	}
 
-	// マップ画面の移動以外で、移動速度が早くなりすぎるのを防ぐための機能
-	// メインループの最初に必ず書かなければならない
+	// adjust moving speed by keybord
 	void GameController::adjustKeyState()
 	{
 		for (int i = 0; i < KeyKindNum; i++)
 		{
-			// 前に押してなくて、今押していたら
+			// compare previous state with current state
 			if (prevKey_[i] == NotPressed && key_[i] == Pressed)
 			{
-				key_[i] = PressedNow;  // 今の瞬間押されたという意味の2を代入。
+				key_[i] = PressedNow;  // if change state, set pressed state
 			}
-			prevKey_[i] = key_[i];  // 今の入力状態を過去に入力されたデータとしてコピー
+			prevKey_[i] = key_[i];
 		}
 	}
 
-	// 通常はメインループの中でこれだけを呼べばよい
+	// call from main loop
 	void GameController::control()
 	{
-		controlFps();  // FPS制御（FPSを60くらいに保つための関数）
+		controlFps();  // keep 60 fps
 #ifdef _DEBUG
-		//calcFps();   // 現在のFPSを計算
-		//graphFps();
+		calcFps();
+		graphFps();
 #endif
-		increaseGCount();  // 内部カウンタを1増加
+		increaseGCount();
 	}
 }

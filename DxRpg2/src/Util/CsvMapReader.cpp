@@ -20,37 +20,34 @@ namespace Util {
 	void CsvMapReader::load(const char* filename)
 	{
 		mapSize_ = YBlock * XBlock;
-		// テキストモードでオープン
+		// open text file
 		std::ifstream ifs(filename);
 		if (ifs.fail())
 		{
-			//exit(EXIT_FAILURE);	// Fatal Error
 			throw("%s Fatal Error. Cannnot read file." __FILE__);
 		}
 		else
 		{
-			// サイズの計測
+			// calculate size
 			ifs.seekg(0, std::ifstream::end);
 			size_ = static_cast<int>(ifs.tellg());
-			// ファイルポインタ巻き戻し
+			// rewind file pointer
 			ifs.seekg(0, std::ifstream::beg);
-			// NULL文字を付加
 			data_ = new char[size_];
 			data_[size_ - 1] = '\0';
-			// 一気に読み込む
+			// read whole data
 			ifs.read(data_, size_);
 		}
-		// CSVパース
+		// parse csv simply
 		const char* Delim = ",\n";
 		int i = 0;
 		for (char* token = strtok(data_, Delim);
 			token != NULL && i < mapSize_;
 			token = strtok(0, Delim))
 		{
-			// 余計なカンマがあった時の対策
 			if (token != NULL)
 			{
-				// 数値に変換する
+				// string to integer
 				mapData_[i] = atoi(token);
 				i++;
 			}

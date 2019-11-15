@@ -13,7 +13,6 @@ namespace Util
 	class ResourceLoader;
 }
 
-// 定数関連の情報
 namespace Sequence
 {
 	class Parent;
@@ -21,10 +20,10 @@ namespace Sequence
 	{
 		namespace Map
 		{
-#ifdef CHARCHIP32X48  // 32x48のキャラチップの場合
-			const int SlidePicVal = 16;			// キャラ縦描画位置ずらし分
-#else  // 32x32のキャラチップの場合
-			const int SlidePicVal = 0;			// キャラ縦描画位置ずらし分
+#ifdef CHARCHIP32X48  // 32x48 charachip
+			const int SlidePicVal = 16;			// vertical slide pixel
+#else  // 32x32 charachip
+			const int SlidePicVal = 0;			// vertical slide pixel
 #endif
 			const int MapNum = 2;
 			const char MapFile[MapNum][MAX_PATH + 1] =
@@ -33,7 +32,7 @@ namespace Sequence
 				"resources/csv/map/20x16/1.txt"
 			};
 
-			// ワールドマップ制御のクラス
+			// Class For Controlling World Map
 			class Map : public Sequence::Game::IChild
 			{
 			public:
@@ -48,13 +47,13 @@ namespace Sequence
 
 			private:
 				SharedCharacterStatus *scs_;
-				// ::を付けているのはどっちのMapかわからないため
+				// :: for distinct, Map means ::Sequence::Game::Map or ::Map
 				std::unique_ptr<::Map::MapMainCharacter> mapMainChar_;
 				std::vector<std::unique_ptr<::Map::MapCityCharacter>> mapCityChar_;
 				
 				Util::ResourceLoader &rl_;
 				std::unique_ptr<Util::CsvMapReader> cmr_;
-				int isPassable_[YBlock * XBlock];	// 通行可能かどうかの情報(重要！)
+				int isPassable_[YBlock * XBlock];	// passable
 				int mapStage_;
 				bool hasChanged_;
 				NextSequence nextSequence_;
