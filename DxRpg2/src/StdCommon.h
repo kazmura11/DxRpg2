@@ -12,19 +12,19 @@
 #include <cstdlib>
 #include <cstdio>
 
-// 共通定数
+// Constant
 const double PI = 3.14159265358979;
-const int WindWidth = 640;  // 横ウィンドウサイズ
-const int WindHeight= 480;  // 縦ウィンドウサイズ
-const int BlockLen = 32;  // 一区間の大きさ。例(32x32)
-const int MapWidth = 640 + 32;  // マップウィンドウサイズ
-const int MapHeight = 480;  // マップウィンドウサイズ
-const int XBlock = MapWidth / BlockLen;  // 横の20区間
-const int YBlock = MapHeight / BlockLen; // 縦の15区間
+const int WindWidth = 640;
+const int WindHeight= 480;
+const int BlockLen = 32;  // block area size (32x32)
+const int MapWidth = 640 + 32;  // Window Size X
+const int MapHeight = 480;  // Window Size Y
+const int XBlock = MapWidth / BlockLen;  // horizon 20
+const int YBlock = MapHeight / BlockLen; // vertical 15
 
-const int CharKindMax = 4;  // 主人公を含めたキャラの種類(主人公＋町の人の種類)
-const int CompCharMax = 8;  // 町キャラの人数
-const int ImgCharDivNum = 12;  // イメージ分割数
+const int CharKindMax = 4;  // number of character kind (main + city character)
+const int CompCharMax = 8;  // number of city character
+const int ImgCharDivNum = 12;  // number of character parts
 const int DivisionNum = 4;
 const int AtbCntMax = 240;
 const int ImgStartBattleDivNum = 16;

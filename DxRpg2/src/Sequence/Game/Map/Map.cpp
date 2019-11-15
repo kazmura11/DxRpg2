@@ -10,13 +10,13 @@ namespace Sequence
 	{
 		namespace Map
 		{
-			// マップ画面の初期化処理
 			Map::Map(SharedCharacterStatus *scs, int stage)
 				: hasChanged_(true), mapStage_(stage), nextSequence_(NextMap),
 				 rl_(Util::ResourceLoader::getInstance()),
 				 cmr_(std::make_unique<Util::CsvMapReader>()),
 				 scs_(scs)
 			{
+				// create character instance
 				mapMainChar_ = std::make_unique<::Map::MapMainCharacter>();
 				for (int i = 0; i < CompCharMax; i++)
 				{
@@ -35,7 +35,6 @@ namespace Sequence
 
 			void Map::update(Parent *parent)
 			{
-				UNREFERENCED_PARAMETER(parent);
 				if (hasChanged_)
 				{
 					initMapState();
@@ -43,39 +42,34 @@ namespace Sequence
 				}
 				else
 				{
-					// マップの描画
 					drawMap();
-					// キャラクタの描画
 					drawCharacter();
 				}
-				// マップ位置の計算及び歩行状態の決定
 				moveCharacter(parent);
-				// マップ変更判定
 				changeMap(parent);
 			}
 
-			// マップ画面の初期化処理
 			void Map::initMapState()
 			{
 				cmr_->load(MapFile[mapStage_]);
-				// マップの状態から通過フラグを作成
-				for (int y = 0; y < YBlock; y++)  // 縦の15区間
+				// set passable data
+				for (int y = 0; y < YBlock; y++)  // vertical 15
 				{
-					for (int x = 0; x < XBlock; x++)  // 横の20区間
+					for (int x = 0; x < XBlock; x++)  // horizontal 15
 					{
-						if (cmr_->getMapData(x, y) > (0 | 1))  // 通れない場所なら
+						if (cmr_->getMapData(x, y) > 1)  // if not passable
 						{
-							isPassable_[y * XBlock + x] = NoThrough;  // 通れないフラグを立てる
+							isPassable_[y * XBlock + x] = NoThrough;  // set not passable
 						}
-						// 通れる場所なら
+						// if passable
 						else
 						{
-							// 四隅 + その一つ内周なら(これが移動時に万が一重なるバグを回避する手段)
-							// やりすぎ感があるがまあいいか
+							// 4 corners + and its inner blocks (outer 2 blocks)
+							// avoid moving to "map change block".
 							if (y == 0 || y == 1 || y == YBlock - 2 || y == YBlock - 1
 								|| x == 0 || x == 1 || x == XBlock - 2 || x == XBlock - 1)
 							{
-								// 町キャラが画面遷移しないようにする
+								// Only main character can move to "map change block".
 								isPassable_[y * XBlock + x] = MainCharOnly;
 							}
 							else
@@ -89,46 +83,46 @@ namespace Sequence
 
 			void Map::initCharState()
 			{
-				// キャラクターを配置する。
-				int tx = mapMainChar_->getX();  // 計算用Y座標
-				int ty = mapMainChar_->getY();   // 計算用X座標
-				int dir = mapMainChar_->getDir();  // 向き
-				int kind = 0;  // キャラクタの種類 0は主人公
+				// deploy character each position
+				int tx = mapMainChar_->getX();
+				int ty = mapMainChar_->getY();
+				int dir = mapMainChar_->getDir();
+				int kind = 0;  // 0 for main character
 				mapMainChar_->initMapState(tx, ty, dir, kind);
-				// 主人公か町の人がいるところは通れない場所とする
+				// set not passable
 				isPassable_[ty / BlockLen * XBlock + tx / BlockLen] = NoThrough;
 				for (int i = 0; i < CompCharMax;)
 				{
-					// 四隅とその２つ内周(-4からさらに-1していることに注意[GetRandの特性])を避ける
+					// 4 corners + and its inner block (outer 2 blocks) => not passable
+					// Note: GetRand(10) returns 0-10 number so, you want to 0-9, then GetRand(9)
+					// -4 => 0,1,MaxPos-2, MaxPos-1
 					int rx = DxLib::GetRand(XBlock - 5) + 2;
 					int ry = DxLib::GetRand(YBlock - 5) + 2;
-					// 町の人で乱数で決めた場所が通れない場所なら
-					if (isPassable_[ry * XBlock + rx] >= MainCharOnly)
+					if (isPassable_[ry * XBlock + rx] == MainCharOnly
+						|| isPassable_[ry * XBlock + rx] == NoThrough)
 					{
-						continue;	// やり直し
+						continue;	// recalculate...
 					}
 					tx = rx * BlockLen;
 					ty = ry * BlockLen;
-					dir = DxLib::GetRand(3);		// 向きをランダムに決定 0-3
-					kind = i % (CharKindMax - 1) + 1;		// 人の種類を決定 ※0は主人公  1-3
+					dir = DxLib::GetRand(3);		// direction of charchip 0-3
+					kind = i % (CharKindMax - 1) + 1;		// character kind 1-3
 					mapCityChar_[i]->initMapState(tx, ty, dir, kind);
-					// 主人公か町の人がいるところは通れない場所とする
 					isPassable_[ty / BlockLen * XBlock + tx / BlockLen] = NoThrough;
-					i++;	// 位置決めが成功したときのみカウンタ増加
+					i++;
 				}
 				hasChanged_ = false;
 			}
 
-			// キャラの移動制御
 			void Map::moveCharacter(Parent *parent)
 			{
-				// 主人公 敵に遭遇
-				if (mapMainChar_->move(isPassable_))
+				// move main character and if encountered enemy
+				bool encountered = mapMainChar_->move(isPassable_);
+				if (encountered)
 				{
-					// 敵に遭遇したら画面キャプチャ＆音楽停止＆モード遷移
-					// このタイミングで呼ばないとキャプチャできない(ClearDrawScreenの前)
+					// must call captureImgMap before "ClearDrawScreen"
 					rl_.captureImgMap();
-					// 遷移先設定
+					// update scene
 					parent->moveTo(Parent::NextBattle);
 				}
 				mapMainChar_->setImg(
@@ -138,11 +132,11 @@ namespace Sequence
 					)
 				);
 
-				// 町の人
+				// city character
 				for (int i = 0; i < CompCharMax; i++)
 				{
 					mapCityChar_[i]->move(isPassable_);
-					// 分割イメージをセット
+					// update character image
 					mapCityChar_[i]->setImg(
 						rl_.getHdlImgChar(
 							mapCityChar_[i]->getKind(),
@@ -152,7 +146,6 @@ namespace Sequence
 				}
 			}
 
-			// マップ切り替え
 			void Map::changeMap(Parent *parent)
 			{
 				if (mapMainChar_->getX() <= 0
@@ -160,100 +153,91 @@ namespace Sequence
 					|| mapMainChar_->getX() >= MapWidth - BlockLen
 					|| mapMainChar_->getY() >= MapHeight - BlockLen)
 				{
-					// 右に出たら
+					// move to right edge change block
 					if (mapMainChar_->getX() >= MapWidth - BlockLen)
 					{
-						// yそのままで一番左の一個右へ
 						mapMainChar_->setX(BlockLen);
-						// マップ変更
 						mapStage_++;
 					}
-					// 左に出たら
+					// move to left edge change block
 					if (mapMainChar_->getX() <= 0)
 					{
-						// yそのままで一番の右一個左へ
 						mapMainChar_->setX(MapWidth - BlockLen * 2);
-						// マップ変更
 						mapStage_--;
 					}
-					// 必要があれば実装
-					// 上、下
-					// マップ変更
+					// change map
 					hasChanged_ = true;
 					parent->setMapStage(mapStage_);
 				}
 			}
 
-			// マップの描画
 			void Map::drawMap()
 			{
-				for (int y = 0; y < YBlock; y++)  // 縦の区間個数分ループ
+				for (int y = 0; y < YBlock; y++)  // vertical loop
 				{
-					// 主人公を中心とする座標で画像の左端/上端開始点を求める。
-					int ofsY = WindHeight / 2 - BlockLen / 2 - mapMainChar_->getY();  // 主人公相対座標
-					for (int x = 0; x < XBlock; x++)  // 横の区間個数
+					// decide left edge and top edge coordinate
+					//   when the main character's position coordinate is center.
+					int centerX = WindWidth / 2 - BlockLen / 2;
+					int centerY = WindHeight / 2 - BlockLen / 2;
+					int ofsY = centerY - mapMainChar_->getY();  // relative Y coodinate
+					for (int x = 0; x < XBlock; x++)
 					{
-						int ofsX = WindWidth / 2 - BlockLen / 2 - mapMainChar_->getX();  // 主人公相対座標
-						// いったん芝生を描画
+						int ofsX = centerX - mapMainChar_->getX();
+						// draw objects in the offset position from main character (=center)
+						// draw lawn
 						DxLib::DrawGraph(
-							x * BlockLen + ofsX,	// 描画相対位置
-							y * BlockLen + ofsY,				   // 描画相対位置
-							rl_.getHdlImgMapTip(0), TRUE);
-						// 本来、芝生でなく他の何かの描画であれば
+							x * BlockLen + ofsX,
+							y * BlockLen + ofsY,
+							rl_.getHdlImgMapchip(0), TRUE);
+						// draw other objects
 						if (cmr_->getMapData(x, y) != 0)
-						{								// その画像を描画
+						{
 							DxLib::DrawGraph(
 								x * BlockLen + ofsX,
 								y * BlockLen + ofsY,
-								rl_.getHdlImgMapTip(cmr_->getMapData(x, y)), TRUE);
+								rl_.getHdlImgMapchip(cmr_->getMapData(x, y)), TRUE);
 						}
 					}
 				}
 			}
 
-			// キャラクタの描画
 			void Map::drawCharacter()
 			{
-				// キャラがスライドしている分、重なりを考慮して上から描画 ただし、この考慮は32x48のキャラチップの時のみ
+				/**
+				 * if use 32x48 charchip, should be draw from above considering overwrap images.
+				 * it is so called "Z-sort"
+				 * 
+				 */
 				for (int y = 0; y < YBlock; y++)
 				{
+					int centerX = WindWidth / 2 - BlockLen / 2;
+					int centerY = WindHeight / 2 - BlockLen / 2;
 					int ty = mapMainChar_->getY();
-					// 調査しているところと同じ範囲の座標なら描画
-					// こうしないと手前のキャラが前に描画されない（重なりがおかしくなる）
-					// 画面奥から順に描画するこの方法をZソートという
+					// if hit the main character's block, then draw images
 					if (y == ty / BlockLen)
 					{
-							// 主人公
-							// 調査しているところと同じ範囲の座標なら描画
-							// 真ん中からの相対位置
-							DxLib::DrawGraph(
-								WindWidth / 2 - BlockLen / 2,	// 中心
-								// キャラが縦長の48pixcelのため、
-								// 32pixelからはみ出る16pixel分上にずらしている。
-								WindHeight / 2 - BlockLen / 2 - SlidePicVal,  // 中心 + スライド分
-								mapMainChar_->getImg(), TRUE);
+						DxLib::DrawGraph(
+							centerX,	// central coordinate
+							// if vertical length is 48px then minus 16px.
+							// if vertical length is 32px, no need to minus.
+							centerY - SlidePicVal,
+							mapMainChar_->getImg(), TRUE);
 					}
 					for (int i = 0; i < CompCharMax; i++)
 					{
 						ty = mapCityChar_[i]->getY();
-						// 調査しているところと同じ範囲の座標なら描画
-						// こうしないと手前のキャラが前に描画されない（重なりがおかしくなる）
-						// 画面奥から順に描画するこの方法をZソートという
+						// if hit the city character's block, then draw images
 						if (y == ty / BlockLen)
 						{
-							// 主人公以外
-							// 真ん中からの相対位置
 							int tx = mapCityChar_[i]->getX();
-							int ofsY = WindHeight / 2 - BlockLen / 2 - mapMainChar_->getY();  // 主人公相対座標
-							int ofsX = WindWidth / 2 - BlockLen / 2 - mapMainChar_->getX();  // 主人公相対座標
-							// x,yは左上頂点の座標で、
-							// x:マップを1個分x座標に追加しているためのずらし
-							// 主人公が動いた分もずらす
+							int ofsY = centerY - mapMainChar_->getY();  // offset from main character Y coodinate
+							int ofsX = centerX - mapMainChar_->getX();  // offset from main character X coodinate
+							// draw city character in the offset position from main character (=center)
 							DxLib::DrawGraph(
 								tx + ofsX,
-								// キャラが縦長の48pixcelのため、
-								// 32pixelからはみ出る16pixel分上にずらしている。
-								ty + ofsY - SlidePicVal,	 // ブロック分のずらしはキャラについて
+								// if vertical length is 48px then minus 16px.
+								// if vertical length is 32px, no need to minus.
+								ty + ofsY - SlidePicVal,
 								mapCityChar_[i]->getImg(), TRUE);
 						}
 					}

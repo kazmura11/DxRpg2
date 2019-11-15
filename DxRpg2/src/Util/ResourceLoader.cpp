@@ -3,11 +3,11 @@
 
 namespace Util
 {
-	const float  LoadNum = 32.0;  // dispProgress()を呼ぶ回数
+	const float  LoadNum = 32.0;  // number of calling dispProgress()
 
 	ResourceLoader &ResourceLoader::getInstance()
 	{
-		static ResourceLoader instance;  // 唯一のインスタンス
+		static ResourceLoader instance;
 		return instance;
 	}
 
@@ -24,7 +24,7 @@ namespace Util
 		DxLib::ScreenFlip();
 	}
 
-	void ResourceLoader::loadMapTip(char *resourcePath, int *handle) {
+	void ResourceLoader::loadMapchip(char *resourcePath, int *handle) {
 		int ret = DxLib::LoadDivGraph(resourcePath,
 			MapTipNum, 4, 1, 32, 32, handle);
 		THROWS_EX(ret, resourcePath);
@@ -32,9 +32,9 @@ namespace Util
 	}
 
 	void ResourceLoader::loadCharacterTip(char *resourcePath, int *handle) {
-#ifdef CHARCHIP32X48  // 32x48のキャラチップの場合
+#ifdef CHARCHIP32X48  // 32x48 charchip
 		int ret = DxLib::LoadDivGraph(resourcePath, ImgCharDivNum, 3, 4, 32, 48, handle);
-#else  // 32x32のキャラチップの場合
+#else  // 32x32 charchip
 		int ret = DxLib::LoadDivGraph(resourcePath, ImgCharDivNum, 3, 4, 32, 32, handle);
 #endif
 		THROWS_EX(ret, resourcePath);
@@ -52,28 +52,28 @@ namespace Util
 	{
 		int ret = 0;
 		try {
-			// マップチップ
-			loadMapTip("resources/img/maptip/field.png", hdlImgMapTip_);
+			// mapchip
+			loadMapchip("resources/img/maptip/field.png", hdlImgMapchip_);
 
-			// キャラクター画像
+			// character image
 			loadCharacterTip("resources/img/character/1.png", hdlImgChar_[0]);
 			loadCharacterTip("resources/img/character/2.png", hdlImgChar_[1]);
 			loadCharacterTip("resources/img/character/3.png", hdlImgChar_[2]);
 			loadCharacterTip("resources/img/character/4.png", hdlImgChar_[3]);
 
-			// 背景の読込
+			// backbround image
 			loadImage("resources/img/back/kaidou0331_800b.jpg", &hdlImgBackGround_[0]);
-			// メッセージボード
+			// message board in battle mode
 			loadImage("resources/img/battle/0.png", &hdlImgEtc_[1]);
 			loadImage("resources/img/battle/10.png", &hdlImgBackGround_[10]);
 			loadImage("resources/img/battle/11.png", &hdlImgBackGround_[11]);
 			
-			// モンスター画像の読込み
+			// monster image
 			hdlImgMonster_[0] = DxLib::LoadGraph("resources/img/monster/enemy_popm003.png");
 			THROWS_EX(hdlImgMonster_[0], "resources/img/monster/enemy_popm003.png");
 			dispProgress();
 
-			// 数字 画像のうち数字のみ使用
+			// number
 			ret = DxLib::LoadDivGraph("resources/img/num/suuji12x24_06.png", ImgNumberDivNum, 10, 1, 12, 24, hdlImgNumber_[0]);
 			THROWS_EX(ret, "resources/img/num/0.png");
 			dispProgress();
@@ -81,38 +81,38 @@ namespace Util
 			THROWS_EX(ret, "resources/img/num/1.png");
 			dispProgress();
 
-			// アニメーション画像
-			// 回復
+			// animation
+			// magic: cure
 			ret = DxLib::LoadDivGraph("resources/img/animation/pipo-btleffect016.png", 8, 8, 1, 120, 120, hdlImgAnimation_[0]);
 			THROWS_EX(ret, "resources/img/animation/pipo-btleffect045.png");
 			dispProgress();
 
-			// 物理攻撃
+			// physical attack
 			ret = DxLib::LoadDivGraph("resources/img/animation/pipo-btleffect001.png", 5, 5, 1, 120, 120, hdlImgAnimation_[1]);
 			THROWS_EX(ret, "resources/img/animation/pipo-btleffect001.png");
 			dispProgress();
 
-			// 魔法 風攻撃
+			// magic: wind
 			ret = DxLib::LoadDivGraph("resources/img/animation/pipo-btleffect039.png", 8, 8, 1, 120, 120, hdlImgAnimation_[2]);
 			THROWS_EX(ret, "resources/img/animation/pipo-btleffect039.png");
 			dispProgress();
-			// 魔法 炎攻撃
+			// magic: fire
 			ret = DxLib::LoadDivGraph("resources/img/animation/pipo-btleffect037.png", 8, 8, 1, 120, 120, hdlImgAnimation_[3]);
 			THROWS_EX(ret, "resources/img/animation/pipo-btleffect037.png");
 			dispProgress();
-			// 魔法 氷攻撃
+			// magic: ice
 			ret = DxLib::LoadDivGraph("resources/img/animation/pipo-btleffect038.png", 8, 8, 1, 120, 120, hdlImgAnimation_[4]);
 			THROWS_EX(ret, "resources/img/animation/pipo-btleffect038.png");
 			dispProgress();
-			// 魔法 雷攻撃
+			// magic: thunder
 			ret = DxLib::LoadDivGraph("resources/img/animation/pipo-btleffect040.png", 8, 8, 1, 120, 120, hdlImgAnimation_[5]);
 			THROWS_EX(ret, "resources/img/animation/pipo-btleffect040.png");
 			dispProgress();
 
-			// カーソル画像
+			// cursor image
 			loadImage("resources/img/icon/cursor.png", &hdlImgCursor_);
 
-			// 等幅フォントのConsolas
+			// Consolas
 			hdlFont_[0] = CreateFontToHandle("Consolas", 18, 3, DX_FONTTYPE_ANTIALIASING_EDGE);  // 日本語不可
 			hdlFont_[1] = CreateFontToHandle("メイリオ", 12, 2, DX_FONTTYPE_ANTIALIASING_EDGE);
 
@@ -132,7 +132,7 @@ namespace Util
 		{
 			for (int j = 0; j < DivisionNum; j++)
 			{
-				// 16分割画像格納データを作る。
+				// create 16 divided image
 				hdlImgStartBattle_[i * DivisionNum + j]
 					= DxLib::MakeGraph(
 						WindWidth / DivisionNum,
@@ -162,9 +162,9 @@ namespace Util
 		return 0;
 	}
 
-	int  ResourceLoader::getHdlImgMapTip(int kind) const
+	int  ResourceLoader::getHdlImgMapchip(int kind) const
 	{
-		return hdlImgMapTip_[kind];
+		return hdlImgMapchip_[kind];
 	}
 
 	int  ResourceLoader::getHdlImgBackGround(int kind) const

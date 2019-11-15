@@ -8,7 +8,7 @@ public:
 		power_(0), defense_(0), strength_(0), magic_(0),
 		weapon_(0), equip_(0), level_(0), kind_(0) { }
 	~SharedCharacterStatus() { }
-	// よく使うからpublicのまま、privateにする意味もない。
+	// dare to make "public"
 public:
 	int hp_;
 	int hpMax_;
@@ -21,7 +21,7 @@ public:
 	int weapon_;
 	int equip_;
 	int level_;
-	int kind_;	// キャラクター・モンスターの種類
+	int kind_;	// character / enemy kind
 
 	void initialize()
 	{

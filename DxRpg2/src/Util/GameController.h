@@ -2,9 +2,9 @@
 #include <climits>
 namespace
 {
-	const int	MetricTimes = 60;		// FPS計測回数
-	const int	OneFrameMillsec = 16;	// 1フレームのミリ秒(16ms)
-	const int	GCountMax = INT_MAX;	// グローバルカウンタMAX
+	const int	MetricTimes = 60;		// FPS
+	const int	OneFrameMillsec = 16;	// millsec per frame (16ms)
+	const int	GCountMax = INT_MAX;	// global counter
 	const int	KeyKindNum = 256;
 }
 
@@ -13,7 +13,7 @@ namespace Util
 	class GameController
 	{
 	public:
-		// 生成やコピーを禁止
+		// for singleton
 		GameController(const GameController&) = delete;
 		GameController& operator=(const GameController&) = delete;
 		GameController(GameController&&) = delete;
@@ -56,8 +56,8 @@ namespace Util
 		void controlFps();
 
 		int gCount_;
-		int frameSpdAvg;  // 平均の1フレーム時間
-		int waitTime_;  // ＦＰＳで使用する変数
+		int frameSpdAvg;  // avarage frame speed
+		int waitTime_;  // for adjusting fps
 		int prevTime_;
 		int fps_[MetricTimes];
 		char key_[KeyKindNum];
