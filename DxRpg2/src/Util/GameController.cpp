@@ -48,7 +48,6 @@ namespace Util
 		}
 	}
 
-	// Private
 	char GameController::getKey(int input) const
 	{
 		return key_[input];
@@ -61,7 +60,8 @@ namespace Util
 
 	bool GameController::keyPressed(int input) const
 	{
-		return getKey(input) == Util::GameController::Pressed;
+		return getKey(input) == Util::GameController::Pressed
+			|| getKey(input) == Util::GameController::PressedNow;
 	}
 
 	bool GameController::escapeNotPressed() const

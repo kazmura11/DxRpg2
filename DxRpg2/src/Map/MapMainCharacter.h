@@ -1,6 +1,7 @@
 #pragma once
 #include "AbstractMapCharacter.h"
 #include "SharedCharacterStatus.h"  // 不完全クラス型へのポインターが参照できないそうなので
+#include "Util/GameController.h"
 
 namespace Map
 {
@@ -21,5 +22,6 @@ namespace Map
 		int  prevY_;  // 前回いたY座標
 		int  encCnt_;  // 敵遭遇カウント
 		bool encountersEnemy();
+		void updatePassable(Util::GameController &gc, int *isPassable);
 	};
 }

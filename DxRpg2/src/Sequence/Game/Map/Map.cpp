@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Sequence/Game/Map/Map.h"
 #include "Sequence/Game/Parent.h"
 #include "Map/AbstractMapCharacter.h"
@@ -197,6 +198,25 @@ namespace Sequence
 								y * BlockLen + ofsY,
 								rl_.getHdlImgMapchip(cmr_->getMapData(x, y)), TRUE);
 						}
+#ifdef _DEBUG
+						char buf1[2] = { '\0' };
+						char buf2[2] = { '\0' };
+						int slide1 = BlockLen / 2 - 10;
+						int slide2 = BlockLen / 2;
+						sprintf(buf1, "%d", cmr_->getMapData(x, y));
+						sprintf(buf2, "%d", isPassable_[y * XBlock + x]);
+						int color1 = DxLib::GetColor(255, 255, 255);
+						int color2 = isPassable_[y * XBlock + x] == 2 ? DxLib::GetColor(255, 0, 0) :
+								DxLib::GetColor(0, 0, 255);
+						DxLib::DrawString(
+							x * BlockLen + ofsX + slide1,
+							y * BlockLen + ofsY + slide1,
+							buf1,color1);
+						DxLib::DrawString(
+							x * BlockLen + ofsX + slide2,
+							y * BlockLen + ofsY + slide2,
+							buf2, color2);
+#endif
 					}
 				}
 			}
