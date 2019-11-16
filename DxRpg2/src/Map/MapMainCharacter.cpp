@@ -1,6 +1,5 @@
 #include "Map/MapMainCharacter.h"
 #include "DxLib.h"   // GetRand()
-#include "Util/GameController.h"
 
 namespace Map
 {
@@ -39,14 +38,7 @@ namespace Map
 	bool MapMainCharacter::move(int *isPassable)
 	{
 		bool enc = false;
-		// 下、左、右、上
-		const int InputKeyDirection[4] =
-		{
-			KEY_INPUT_DOWN,
-			KEY_INPUT_LEFT,
-			KEY_INPUT_RIGHT,
-			KEY_INPUT_UP,
-		};
+
 		Util::GameController &gc = Util::GameController::getInstance();
 
 		setPosition();  // キャラクタ位置の決定
@@ -91,54 +83,7 @@ namespace Map
 			}
 			else  // キーが何か押されている時
 			{
-				for (int i = 0; i < DirNum; i++)  // 向きの方向チェック
-				{
-					// 入力キーの判定
-					if (gc.keyPressed(InputKeyDirection[i]))
-					{
-						dir_ = i;  // 入力されているキーの方向にdirをセットする
-						int cy = y_ / BlockLen;
-						int cx = x_ / BlockLen;
-						int ny = y_ / BlockLen + OffsetY[dir_];
-						int nx = x_ / BlockLen + OffsetX[dir_];
-						// 向いてる方向が通れる場所なら
-						if (canMove(isPassable[ny * XBlock + nx]))
-						{
-							walkFlag_ = true;
-							// 今いた場所の処理
-							// 四隅+その一つ内周なら(これが移動時に万が一重なるバグを回避する手段) 
-							const bool ConditionCur
-								= cy == 0 || cy == 1 || cy == YBlock - 2 || cy == YBlock - 1
-								|| cx == 0 || cx == 1 || cx == XBlock - 2 || cx == XBlock - 1;
-							if (ConditionCur)
-							{
-								isPassable[cy * XBlock + cx] = MainCharOnly;	// ADD
-							}
-							else
-							{
-								isPassable[cy * XBlock + cx] = Through;
-							}
-							// 次の場所の処理
-							// 次のマスが四隅なら
-							const bool ConditionOuter
-								= ny == 0 || ny == 1 || ny == YBlock - 2 || ny == YBlock - 1
-								|| nx == 0 || nx == 1 || nx == XBlock - 2 || nx == XBlock - 1;
-							if (ConditionOuter)
-							{
-								isPassable[ny * XBlock + nx] = MainCharOnly;
-							}
-							else
-							{
-								isPassable[ny * XBlock + nx] = NoThrough;
-							}
-						}
-						else  // 向いてる方向が通れない場所なら
-						{
-							walkFlag_ = false;  // 歩いていない状態に
-						}
-						break;  // いずれかの方向の処理が終わればループを抜ける
-					}
-				}
+				updatePassable(gc, isPassable);
 				walk();  // 常にdirの方向へ歩く
 			}
 		}
@@ -149,6 +94,68 @@ namespace Map
 		// 次へ描画する画像をセット
 		animePicPos_ = decideAnimePic(walkPixel_, dir_);
 		return enc;
+	}
+
+	void MapMainCharacter::updatePassable(Util::GameController &gc, int *isPassable) {
+		// 下、左、右、上
+		const int InputKeyDirection[4] =
+		{
+			KEY_INPUT_DOWN,
+			KEY_INPUT_LEFT,
+			KEY_INPUT_RIGHT,
+			KEY_INPUT_UP,
+		};
+		for (int i = 0; i < DirNum; i++)  // 向きの方向チェック
+		{
+			// 入力キーの判定
+			if (gc.keyPressed(InputKeyDirection[i]))
+			{
+				dir_ = i;  // 入力されているキーの方向にdirをセットする
+				// current position
+				int cy = y_ / BlockLen;
+				int cx = x_ / BlockLen;
+				// next position
+				int ny = y_ / BlockLen + OffsetY[dir_];
+				int nx = x_ / BlockLen + OffsetX[dir_];
+				// 向いてる方向が通れる場所なら
+				if (canMove(isPassable[ny * XBlock + nx]))
+				{
+					walkFlag_ = true;
+					// 今いた場所の処理
+					// 四隅+その一つ内周なら(これが移動時に万が一重なるバグを回避する手段) 
+					const bool ConditionCur
+						= cy == 0 || cy == 1 || cy == YBlock - 2 || cy == YBlock - 1
+						|| cx == 0 || cx == 1 || cx == XBlock - 2 || cx == XBlock - 1;
+					if (ConditionCur)
+					{
+						isPassable[cy * XBlock + cx] = MainCharOnly; // main character's spacial logic
+					}
+					else
+					{
+						isPassable[cy * XBlock + cx] = Through;  // set status to anyone can walk
+					}
+					// 次の場所の処理
+					// 次のマスが四隅なら
+					const bool ConditionOuter
+						= ny == 0 || ny == 1 || ny == YBlock - 2 || ny == YBlock - 1
+						|| nx == 0 || nx == 1 || nx == XBlock - 2 || nx == XBlock - 1;
+					if (ConditionOuter)
+					{
+						isPassable[ny * XBlock + nx] = MainCharOnly; // main character's spacial logic
+					}
+					else
+					{
+						isPassable[ny * XBlock + nx] = NoThrough;
+					}
+				}
+				else  // 向いてる方向が通れない場所なら
+				{
+					walkFlag_ = false;  // 歩いていない状態に
+				}
+				return;  // いずれかの方向の処理が終わればループを抜ける
+			}
+		}
+		DBGPRINTSTR("FATAL ERROR OCCURRED!")
 	}
 
 	bool MapMainCharacter::encountersEnemy()

@@ -26,7 +26,7 @@ public:
 	void initialize()
 	{
 #if _DEBUG
-		hp_ = 100;
+		hp_ = 400;
 #else
 		hp_ = 1352;
 #endif

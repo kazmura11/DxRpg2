@@ -15,7 +15,7 @@ namespace Map
 		img_ = 0;
 		walkSpeed_ = DefWalkSpeed;
 		animePicPos_ = 1;  // ^‰º
-		stop();  // •à”‚O
+		stop();  // •à”0
 	}
 
 	bool MapCityCharacter::move(int *isPassable)
@@ -28,8 +28,10 @@ namespace Map
 			if (GetRand(WalkRand) == 0)  // •à‚«n‚ß‚é
 			{
 				dir_ = GetRand(3);  // ƒ‰ƒ“ƒ_ƒ€‚É•ûŒü‚ğŒˆ’è 0-3
+				// current position
 				int cy = y_ / BlockLen;
 				int cx = x_ / BlockLen;
+				// next position
 				int ny = y_ / BlockLen + OffsetY[dir_];
 				int nx = x_ / BlockLen + OffsetX[dir_];
 

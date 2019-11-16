@@ -50,6 +50,7 @@ namespace Util
 	private:
 		GameController() {};
 		~GameController() {};
+		
 		char getKey(int input) const;
 		void calcFps();
 		void graphFps();
