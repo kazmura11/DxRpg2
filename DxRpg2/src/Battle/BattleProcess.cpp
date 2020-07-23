@@ -49,11 +49,11 @@ namespace Battle
 		// UŒ‚‚Ìƒ‚[ƒVƒ‡ƒ“
 		if (chr_->getMotionFlag())
 		{
-			doAction(chr_, mon_, Character);
+			doAction(chr_, mon_, CharacterEnemyKind::Character);
 		}
 		if (mon_->getMotionFlag())
 		{
-			doAction(mon_, chr_, Enemy);
+			doAction(mon_, chr_, CharacterEnemyKind::Enemy);
 		}
 
 		decideGameover();
@@ -151,7 +151,7 @@ namespace Battle
 		if (20 < self->getActionCnt() && self->getActionCnt() <= 40)
 		{
 			//@–¡•û
-			if (k == Character)
+			if (k == CharacterEnemyKind::Character)
 			{
 				self->decreaseX();
 			}
@@ -165,7 +165,7 @@ namespace Battle
 		if (self->getActionCnt() == 50)
 		{
 			// –¡•û
-			if (k == Character)
+			if (k == CharacterEnemyKind::Character)
 			{
 				ba_->startAnimation(self->getMenuSelect(), 0, 100);
 			}
@@ -182,7 +182,7 @@ namespace Battle
 		if (self->getActionFlag())	// BattleAnimationƒNƒ‰ƒX‚ÅON‚É‚È‚é
 		{
 			// “G‚Ìê‡
-			if (k == Enemy)
+			if (k == CharacterEnemyKind::Enemy)
 			{
 				// ’ÊíUŒ‚‘I‘ð
 				self->setMenuSelect(10000);
@@ -222,7 +222,7 @@ namespace Battle
 		if (0 < self->getDamageActionCnt() && self->getDamageActionCnt() <= 20)
 		{
 			// Œã‚ë‚É“®‚­
-			if (k == Character)
+			if (k == CharacterEnemyKind::Character)
 			{
 				self->increaseX();
 			}
@@ -263,7 +263,7 @@ namespace Battle
 		AbstractBattleCharacter *opponent,
 		CharacterEnemyKind k)
 	{
-		int damage = decideDamage(self, ((k == Character) ? 0 : 1), self->getMenuSelect());
+		int damage = decideDamage(self, ((k == CharacterEnemyKind::Character) ? 0 : 1), self->getMenuSelect());
 		if (self->getAttackMagic().flag)
 		{
 			damage *= 2;
@@ -334,8 +334,9 @@ namespace Battle
 		}
 		if (actKind < 40000 && actKind != 20000)  // UŒ‚
 		{
-			return static_cast<int>(level * 2 + (power + weapon - (defense + equip))
-				* strength * genRandom(0.01, 0.05) + strength * genRandom(0.2, 1.0));
+			return static_cast<int>(level * 2
+				+ ( (power + static_cast<double>(weapon)) - (defense + static_cast<double>(equip)) )
+				* static_cast<double>(strength) * genRandom(0.01, 0.05) + static_cast<double>(strength) * genRandom(0.2, 1.0));
 		}
 		if (actKind == 20000)	// ‰ñ•œ
 		{

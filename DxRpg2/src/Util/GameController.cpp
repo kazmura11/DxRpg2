@@ -15,21 +15,21 @@ namespace Util
 		// if gCount_ reached to metric times... update avarage speed;
 		if ((gCount_ % MetricTimes) == (MetricTimes - 1))
 		{
-			frameSpdAvg = 0;
+			frameSpdAvg_ = 0;
 			for (int i = 0; i < MetricTimes; i++)
 			{
-				frameSpdAvg += fps_[i];
+				frameSpdAvg_ += fps_[i];
 			}
-			frameSpdAvg /= MetricTimes;
+			frameSpdAvg_ /= MetricTimes;
 		}
 	}
 
 	void GameController::graphFps()
 	{
-		if (frameSpdAvg != 0)	// avoid dividing by zero
+		if (frameSpdAvg_ != 0)	// avoid dividing by zero
 		{
 			DxLib::DrawFormatString(0, 0, static_cast<int>(DxLib::GetColor(255, 255, 255)),
-				"FPS %.1f", 1000.0 / (double)(frameSpdAvg));
+				"FPS %.1f", 1000.0 / (double)(frameSpdAvg_));
 		}
 	}
 

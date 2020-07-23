@@ -36,7 +36,7 @@ namespace Sequence
 			class Map : public Sequence::Game::IChild
 			{
 			public:
-				enum NextSequence
+				enum class NextSequence
 				{
 					NextMap,
 					NextBattle,

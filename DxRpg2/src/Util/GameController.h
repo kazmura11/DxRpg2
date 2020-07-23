@@ -48,7 +48,7 @@ namespace Util
 		void control();
 
 	private:
-		GameController() {};
+		GameController() : fps_{}, frameSpdAvg_(0), gCount_(0), key_{ 0 }, prevKey_{ 0 } {};
 		~GameController() {};
 		
 		char getKey(int input) const;
@@ -57,7 +57,7 @@ namespace Util
 		void controlFps();
 
 		int gCount_;
-		int frameSpdAvg;  // avarage frame speed
+		int frameSpdAvg_;  // avarage frame speed
 		int waitTime_;  // for adjusting fps
 		int prevTime_;
 		int fps_[MetricTimes];

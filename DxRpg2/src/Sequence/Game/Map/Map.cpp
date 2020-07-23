@@ -12,7 +12,7 @@ namespace Sequence
 		namespace Map
 		{
 			Map::Map(SharedCharacterStatus *scs, int stage)
-				: hasChanged_(true), mapStage_(stage), nextSequence_(NextMap),
+				: hasChanged_(true), mapStage_(stage), nextSequence_(NextSequence::NextMap),
 				 rl_(Util::ResourceLoader::getInstance()),
 				 cmr_(std::make_unique<Util::CsvMapReader>()),
 				 scs_(scs)
@@ -124,7 +124,7 @@ namespace Sequence
 					// must call captureImgMap before "ClearDrawScreen"
 					rl_.captureImgMap();
 					// update scene
-					parent->moveTo(Parent::NextBattle);
+					parent->moveTo(Parent::NextSequence::NextBattle);
 				}
 				mapMainChar_->setImg(
 					rl_.getHdlImgChar(

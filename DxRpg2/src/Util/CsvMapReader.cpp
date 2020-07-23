@@ -4,12 +4,8 @@
 
 namespace Util {
 	CsvMapReader::CsvMapReader()
-		: size_(0), data_(NULL), mapSize_(0)
+		: size_(0), data_(NULL), mapSize_(0), mapData_{'\0'}
 	{
-		for (int i = 0; i < YBlock * XBlock; i++)
-		{
-			mapData_[i] = '\0';
-		}
 	}
 
 	int CsvMapReader::getMapData(int x, int y)

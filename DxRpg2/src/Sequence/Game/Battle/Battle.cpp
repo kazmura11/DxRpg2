@@ -17,7 +17,8 @@ namespace Sequence
 				gc_(Util::GameController::getInstance()),
 				rl_(Util::ResourceLoader::getInstance()),
 				chr_(std::make_unique<::Battle::BattleCharacter>(sharedStatus)),
-				mon_(std::make_unique <::Battle::BattleMonster > ())
+				mon_(std::make_unique <::Battle::BattleMonster > ()),
+				randX_{}, randY_{}, startBattleX_{}, startBattleY_{}
 			{
 				// キャラ種別を外から設定
 				chr_->setKind(0);
@@ -48,7 +49,7 @@ namespace Sequence
 					randY_[i] = 0;
 				}
 
-				nextSequence_ = NextBattleShatter;   // 最初はコレ
+				nextSequence_ = NextSequence::NextBattleShatter;   // 最初はコレ
 			}
 
 			Battle::~Battle()
@@ -60,31 +61,31 @@ namespace Sequence
 			{
 				switch (nextSequence_)
 				{
-				case NextBattleShatter:  // 画面が割れて落ちるシーン
+				case NextSequence::NextBattleShatter:  // 画面が割れて落ちるシーン
 					startBattleShatter();
 					break;
-				case NextBattleEnter:  // 戦闘突入シーン
+				case NextSequence::NextBattleEnter:  // 戦闘突入シーン
 					startBattleEnter();
 					break;
-				case NextBattleMain:  // 戦闘シーン
+				case NextSequence::NextBattleMain:  // 戦闘シーン
 					bp_->main();    // 戦闘メイン処理
 					if (bp_->getWinMoveNext())
 					{
-						nextSequence_ = NextMap;
+						nextSequence_ = NextSequence::NextMap;
 					}
 					if (bp_->getGameoverMoveNext())
 					{
-						nextSequence_ = NextRestart;
+						nextSequence_ = NextSequence::NextRestart;
 					}
 					break;
-				case NextBattleDebug:  // DEBUG用
+				case NextSequence::NextBattleDebug:  // DEBUG用
 					//debugBattleMode();
 					break;
-				case NextMap:
-					parent->moveTo(Parent::NextMapMain);
+				case NextSequence::NextMap:
+					parent->moveTo(Parent::NextSequence::NextMapMain);
 					break;
-				case NextRestart:
-					parent->moveTo(Parent::NextRestart);
+				case NextSequence::NextRestart:
+					parent->moveTo(Parent::NextSequence::NextRestart);
 					break;
 				default:
 					exit(EXIT_FAILURE);
@@ -107,8 +108,8 @@ namespace Sequence
 					{
 						for (int j = 0; j < DivisionNum; j++)
 						{
-							startBattleX_[i * DivisionNum + j] = WindWidth / DivisionNum * j;   // 描画する各ｘ座標
-							startBattleY_[i * DivisionNum + j] = WindHeight / DivisionNum * i;  // 描画する各ｙ座標
+							startBattleX_[i * DivisionNum + j] = WindWidth / DivisionNum * static_cast<double>(j);   // 描画する各ｘ座標
+							startBattleY_[i * DivisionNum + j] = WindHeight / DivisionNum * static_cast<double>(i);  // 描画する各ｙ座標
 							randX_[i * DivisionNum + j] = DxLib::GetRand(30);	 // ばらけさせるための乱数
 							randY_[i * DivisionNum + j] = DxLib::GetRand(30);	 // ばらけさせるための乱数
 						}
@@ -124,9 +125,9 @@ namespace Sequence
 						{
 							// 四方八方に飛び散らせる
 							startBattleX_[i * DivisionNum + j]
-								+= (randX_[i * DivisionNum + j] + (30 * j) - 45) / 8.0;
+								+= (randX_[i * DivisionNum + j] + 30 * static_cast<double>(j) - 45) / 8.0;
 							startBattleY_[i * DivisionNum + j]
-								+= (randY_[i * DivisionNum + j] + (30 * i) - 45) / 8.0;
+								+= (randY_[i * DivisionNum + j] + 30 * static_cast<double>(i) - 45) / 8.0;
 						}
 					}
 				}
@@ -165,7 +166,7 @@ namespace Sequence
 				if (cnt == DownEd)
 				{
 					cnt = 0;
-					nextSequence_ = NextBattleEnter;
+					nextSequence_ = NextSequence::NextBattleEnter;
 					return;
 				}
 				// 分割区画をそれぞれ描画
@@ -221,11 +222,11 @@ namespace Sequence
 					int t = cnt - Stage3;
 					DxLib::DrawExtendGraph(
 						static_cast<int>((WindWidth / 2 + WindWidth / DivisionNum)
-							- (WindWidth / 2 + WindWidth / DivisionNum)
-							* t / StartBattleTime),
+							- (WindWidth / 2 + static_cast<double>(WindWidth / DivisionNum))
+							* static_cast<double>(t / StartBattleTime)),
 						0,
-						static_cast<int>(WindWidth *t / StartBattleTime),
-						static_cast<int>(WindHeight * t / StartBattleTime),
+						static_cast<int>(WindWidth * static_cast<double>(t) / StartBattleTime),
+						static_cast<int>(WindHeight * static_cast<double>(t) / StartBattleTime),
 						rl_.getHdlImgStartBattle(0),
 						TRUE
 					);
@@ -233,7 +234,7 @@ namespace Sequence
 				if (cnt == Stage3 + StartBattleTime)
 				{	// 時間になったらオープニングを終了して戦闘へ
 					cnt = 0;
-					nextSequence_ = NextBattleMain;
+					nextSequence_ = NextSequence::NextBattleMain;
 					return;
 				}
 				cnt++;

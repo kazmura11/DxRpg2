@@ -8,7 +8,7 @@ namespace Util
 }
 namespace Battle
 {
-	enum CharacterEnemyKind
+	enum class CharacterEnemyKind
 	{
 		Character,
 		Enemy,
