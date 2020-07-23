@@ -51,7 +51,10 @@ namespace Util
 		int getHdlNullImg() const;
 
 	private:
-		ResourceLoader() {};
+		ResourceLoader()
+			:hdlFont_{}, hdlImgAnimation_{}, hdlImgBackGround_{}, hdlImgChar_{}, hdlImgCursor_{},
+			hdlImgEtc_{}, hdlImgMapchip_{}, hdlImgMonster_{}, hdlImgNumber_{}, hdlImgStartBattle_{}
+			{};
 		~ResourceLoader() {};
 		void dispProgress();
 		void loadMapchip(char *resourcePath, int *handle);

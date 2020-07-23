@@ -20,7 +20,7 @@ namespace Util
 		DxLib::DrawFormatString(WindWidth / 2 - 60, WindHeight / 2 + 160,
 			GetColor(255, 255, 255), "Now Loading....");
 		DxLib::DrawFormatString(WindWidth / 2 - 20, WindHeight / 2 + 200,
-			GetColor(255, 255, 255), "%.0fÅì", currentLoadNum / LoadNum * 100);
+			GetColor(255, 255, 255), "%.0fÅì", currentLoadNum / LoadNum * static_cast<double>(100));
 		DxLib::ScreenFlip();
 	}
 

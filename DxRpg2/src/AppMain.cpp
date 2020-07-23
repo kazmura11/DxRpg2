@@ -4,9 +4,9 @@
 #include "Sequence/Parent.h"
 
 // ---------------------------------------------------------------
-// Entory Point
+// Entry Point
 // ---------------------------------------------------------------
-int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {
 #ifdef _DEBUG
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );  // for cheking memory leak

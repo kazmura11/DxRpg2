@@ -22,7 +22,7 @@ namespace Sequence
 	{
 		namespace Battle
 		{
-			enum NextSequence
+			enum class NextSequence
 			{
 				NextMap,
 				NextBattleShatter,

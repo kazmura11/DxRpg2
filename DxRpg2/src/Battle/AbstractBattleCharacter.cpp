@@ -9,13 +9,8 @@ namespace Battle
 		atbCnt_(0), atbCntFlag_(false), motionFlag_(false),
 		menuSelect_(0), menuSelectY_(0), actionCnt_(false), damageActionCnt_(0),
 		actionFlag_(false), animationFlag_(false), damageFlag_(false),
-		damage_(0), centerX_(0), centerY_(0)
-
+		damage_(0), centerX_(0), centerY_(0), abiFlag_{false}, sharedStatus_(nullptr)
 	{
-		for (int i = 0; i < sizeof(abiFlag_); i++)
-		{
-			abiFlag_[i] = false;
-		}
 	}
 
 	AbstractBattleCharacter::~AbstractBattleCharacter()

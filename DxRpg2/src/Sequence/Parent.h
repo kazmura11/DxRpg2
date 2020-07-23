@@ -8,7 +8,7 @@ namespace Sequence
 	class Parent
 	{
 	public:
-		enum NextSequence
+		enum class NextSequence
 		{
 			NextMap,
 			NextNone,
@@ -19,17 +19,17 @@ namespace Sequence
 			child_->update(this);
 			switch (nextSequence_)
 			{
-			case NextMap:
+			case NextSequence::NextMap:
 				child_.reset();
 				child_ = std::make_unique<Game::Parent>();
 				break;
-			case NextNone:
+			case NextSequence::NextNone:
 				break;
 			default:
 				exit(EXIT_FAILURE);
 				break;
 			}
-			nextSequence_ = NextNone;
+			nextSequence_ = NextSequence::NextNone;
 		}
 
 		void moveTo(NextSequence next)
@@ -45,7 +45,7 @@ namespace Sequence
 
 	private:
 		Parent()
-			: nextSequence_(NextNone),
+			: nextSequence_(NextSequence::NextNone),
 			child_(std::make_unique<Game::Parent>())
 		{
 		}
@@ -54,7 +54,7 @@ namespace Sequence
 		{
 		}
 
-		Parent(const Parent&) { }
+		Parent(const Parent&): nextSequence_(NextSequence::NextNone) { }
 		Parent& operator=(const Parent&) { }
 		NextSequence nextSequence_;
 		std::unique_ptr<IChild> child_;

@@ -15,12 +15,8 @@ namespace Battle
 			char message[MessageLenMax];
 
 			Board_()
-				: flag(false), cnt(0)
+				: flag(false), cnt(0), message{0}
 			{
-				for (int i = 0; i < sizeof(message); i++)
-				{
-					message[i] = 0;
-				}
 			}
 		};
 		Board_ board_[BoardMax];
