@@ -110,8 +110,8 @@ namespace Sequence
 						{
 							startBattleX_[i * DivisionNum + j] = WindWidth / DivisionNum * static_cast<double>(j);   // 描画する各ｘ座標
 							startBattleY_[i * DivisionNum + j] = WindHeight / DivisionNum * static_cast<double>(i);  // 描画する各ｙ座標
-							randX_[i * DivisionNum + j] = DxLib::GetRand(30);	 // ばらけさせるための乱数
-							randY_[i * DivisionNum + j] = DxLib::GetRand(30);	 // ばらけさせるための乱数
+							randX_[i * DivisionNum + j] = DxLib::GetRand(30);   // ばらけさせるための乱数
+							randY_[i * DivisionNum + j] = DxLib::GetRand(30);   // ばらけさせるための乱数
 						}
 					}
 				}

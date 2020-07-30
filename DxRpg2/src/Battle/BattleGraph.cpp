@@ -173,14 +173,14 @@ namespace Battle
 		}
 
 		DxLib::DrawFormatStringToHandle(x, y + 4, DxLib::GetColor(255, 255, 255),
-			rl_.getHdlFont(0), "HP %4d/%4d", hp, hpMax);	// HP数値表示
+			rl_.getHdlFont(0), "HP %4d/%4d", hp, hpMax);  // HP数値表示
 		DxLib::DrawFormatStringToHandle(x, y + OffsetY + 4, DxLib::GetColor(255, 255, 255),
-			rl_.getHdlFont(0), "MP %4d/%4d", mp, mpMax);	// MP数値表示
+			rl_.getHdlFont(0), "MP %4d/%4d", mp, mpMax);  // MP数値表示
 		DxLib::DrawFormatStringToHandle(x, y + (OffsetY * 2) + 4, DxLib::GetColor(255, 255, 255),
 			rl_.getHdlFont(0), "ATB");
 		if (damagePoint == DamagePointMax) {
 			DxLib::DrawFormatStringToHandle(x, y + (OffsetY * 3) + 8, barColorDp,
-				rl_.getHdlFont(1), "リミットブレイク");	// DP
+				rl_.getHdlFont(1), "リミットブレイク");  // DP
 		}
 	}
 

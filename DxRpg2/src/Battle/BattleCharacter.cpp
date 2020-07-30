@@ -45,7 +45,7 @@ namespace Battle
 		menuSelectY_--;
 		if (menuSelectY_ == -1) // 選択位置が一番上を超えたら
 		{
-			menuSelect_ += 5;	 // 一番下へ 
+			menuSelect_ += 5;    // 一番下へ 
 			menuSelectY_ = 4;   // 一番下へ 4は選択表示項目の最大数-1
 		}
 	}
@@ -56,21 +56,21 @@ namespace Battle
 		menuSelectY_++;
 		if (menuSelectY_ == 5) // 選択位置が一番上を超えたら
 		{
-			menuSelect_ -= 5;	// 一番上へ
+			menuSelect_ -= 5;   // 一番上へ
 			menuSelectY_ = 0;   // 一番上へ
 		}
 	}
 
 	void BattleCharacter::pressedKeyX()
 	{
-		menuSelect_ = menuSelect_ * 100;	// 決定ボタンが押されるたびに100倍に
-		menuSelectY_ = 0;					// 選択位置を初期状態に
+		menuSelect_ = menuSelect_ * 100;   // 決定ボタンが押されるたびに100倍に
+		menuSelectY_ = 0;   // 選択位置を初期状態に
 	}
 
 	void BattleCharacter::pressedKeyZ()
 	{
-		menuSelect_ = 1;					// 選択状態を戻す 
-		menuSelectY_ = 0;					// 選択位置を初期状態に
+		menuSelect_ = 1;    // 選択状態を戻す 
+		menuSelectY_ = 0;   // 選択位置を初期状態に
 	}
 
 	void BattleCharacter::resetSelectState()

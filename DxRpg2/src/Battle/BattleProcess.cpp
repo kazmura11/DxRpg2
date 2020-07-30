@@ -232,7 +232,7 @@ namespace Battle
 			}
 		}
 
-		self->increaseActionCnt();	// ここは必ず毎回実行
+		self->increaseActionCnt();  // ここは必ず毎回実行
 		if (self->getDamageActionCnt() > 0)
 		{
 			self->increaseDamageActionCnt();
