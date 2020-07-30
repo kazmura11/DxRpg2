@@ -20,7 +20,7 @@ namespace Sequence
 				NextNone,
 			};
 			Parent();
-			~Parent();
+			virtual ~Parent() override;
 			void update(GrandParent* grandParent);
 			void moveTo(NextSequence nextSequence);
 			void setMapStage(int mapStage);

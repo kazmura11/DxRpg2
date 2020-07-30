@@ -37,10 +37,10 @@ namespace Sequence
 			nextSequence_ = next;
 		}
 
-		static Parent* getInstance()
+		static Parent& getInstance()
 		{
 			static Parent parent;
-			return &parent;
+			return parent;
 		}
 
 	private:

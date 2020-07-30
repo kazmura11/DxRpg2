@@ -8,7 +8,7 @@ namespace Battle
 	BattleMonster::BattleMonster()
 	{
 		// 敵の場合は毎度HP等ここで作成する
-		sharedStatus_ = new ::SharedCharacterStatus();
+		sharedStatus_ = new ::SharedCharacterStatus();  // memory leak warning
 		initializeParameter();
 	}
 
@@ -55,6 +55,6 @@ namespace Battle
 		damageActionCnt_ = 0;
 		actionFlag_ = false;
 		animationFlag_ = false;    // アニメーションをするかのフラグ
-		damageFlag_	= false;    // ダメージ表示するかのフラグ
+		damageFlag_ = false;    // ダメージ表示するかのフラグ
 	}
 }
