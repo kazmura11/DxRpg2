@@ -39,7 +39,7 @@ namespace Sequence
 				mon_->setCenterX(mon_->getX() + axisMonX / 2);
 				mon_->setCenterY(mon_->getY() + axisMonY / 2);
 
-				bp_.reset(new ::Battle::BattleProcess(chr_.get(), mon_.get()));
+				bp_.reset(new ::Battle::BattleProcess(chr_.get(), mon_.get()));  // memory leak warning
 
 				for (int i = 0; i < ImgCharDivNum; i++)
 				{

@@ -42,7 +42,7 @@ namespace Sequence
 					NextBattle,
 				};
 				Map(SharedCharacterStatus *scs, int stage);
-				~Map();
+				virtual ~Map() override;
 				void update(Parent *parent) override;
 
 			private:
