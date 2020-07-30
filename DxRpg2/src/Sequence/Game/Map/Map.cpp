@@ -102,12 +102,12 @@ namespace Sequence
 					if (isPassable_[ry * XBlock + rx] == MainCharOnly
 						|| isPassable_[ry * XBlock + rx] == NoThrough)
 					{
-						continue;	// recalculate...
+						continue;  // recalculate...
 					}
 					tx = rx * BlockLen;
 					ty = ry * BlockLen;
-					dir = DxLib::GetRand(3);		// direction of charchip 0-3
-					kind = i % (CharKindMax - 1) + 1;		// character kind 1-3
+					dir = DxLib::GetRand(3);  // direction of charchip 0-3
+					kind = i % (CharKindMax - 1) + 1;  // character kind 1-3
 					mapCityChar_[i]->initMapState(tx, ty, dir, kind);
 					isPassable_[ty / BlockLen * XBlock + tx / BlockLen] = NoThrough;
 					i++;

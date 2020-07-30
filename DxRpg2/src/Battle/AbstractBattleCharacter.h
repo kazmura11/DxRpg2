@@ -116,7 +116,7 @@ namespace Battle
 		int	 x_;
 		int	 y_;
 
-		int damagePoint_;	// ダメージを受けるとたまる値
+		int damagePoint_;    // ダメージを受けるとたまる値
 		double cntSpeed_;
 		bool abiFlag_[60];
 		int atbCnt_;

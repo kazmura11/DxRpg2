@@ -21,7 +21,7 @@ public:
 	int weapon_;
 	int equip_;
 	int level_;
-	int kind_;	// character / enemy kind
+	int kind_;   // character / enemy kind
 
 	void initialize()
 	{

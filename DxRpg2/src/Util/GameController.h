@@ -2,9 +2,9 @@
 #include <climits>
 namespace
 {
-	const int	MetricTimes = 60;		// FPS
-	const int	OneFrameMillsec = 16;	// millsec per frame (16ms)
-	const int	GCountMax = INT_MAX;	// global counter
+	const int	MetricTimes = 60;   // FPS
+	const int	OneFrameMillsec = 16;   // millsec per frame (16ms)
+	const int	GCountMax = INT_MAX;   // global counter
 	const int	KeyKindNum = 256;
 }
 

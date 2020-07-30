@@ -3,7 +3,7 @@
 
 namespace Map
 {
-	const int	DefWalkSpeed	= 1;
+	const int	DefWalkSpeed = 1;
 	// 町の人間が歩き回る度合い -> 多いほどたまにしか動かない
 	const int	WalkRand	= 100;
 	// int型「dir」の値をがx,yそれぞれの方向の相対位置としてに分解したもの

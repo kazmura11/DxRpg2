@@ -35,7 +35,7 @@ namespace Battle
 		animation_[i].target = target;   // Œ»ó 100:–¡•û,  0:“G
 		animation_[i].kind = selected;   // menuSelect()‚Ì’l
 		animation_[i].cnt = 0;
-		animation_[i].actor = actor;	 // Œ»ó 100:–¡•û,  0:“G
+		animation_[i].actor = actor;     // Œ»ó 100:–¡•û,  0:“G
 
 	}
 
