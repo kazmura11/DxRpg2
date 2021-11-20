@@ -35,7 +35,7 @@ namespace Sequence
 			class Battle : public Sequence::Game::IChild
 			{
 			public:
-				Battle(SharedCharacterStatus *sharedStatus);
+				Battle(std::shared_ptr<::SharedCharacterStatus> sharedStatus);
 				virtual ~Battle();
 				void update(Sequence::Game::Parent *parent);
 

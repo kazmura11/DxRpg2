@@ -41,12 +41,12 @@ namespace Sequence
 					NextMap,
 					NextBattle,
 				};
-				Map(SharedCharacterStatus *scs, int stage);
+				Map(std::shared_ptr<::SharedCharacterStatus> scs, int stage);
 				virtual ~Map() override;
 				void update(Parent *parent) override;
 
 			private:
-				SharedCharacterStatus *scs_;
+				std::shared_ptr<SharedCharacterStatus> scs_;
 				// :: for distinct, Map means ::Sequence::Game::Map or ::Map
 				std::unique_ptr<::Map::MapMainCharacter> mapMainChar_;
 				std::vector<std::unique_ptr<::Map::MapCityCharacter>> mapCityChar_;

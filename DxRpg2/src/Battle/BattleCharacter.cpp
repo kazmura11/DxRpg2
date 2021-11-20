@@ -5,9 +5,9 @@
 
 namespace Battle
 {
-	BattleCharacter::BattleCharacter(SharedCharacterStatus *sharedStatus)
+	BattleCharacter::BattleCharacter(std::shared_ptr<::SharedCharacterStatus> sharedStatus)
 	{
-		sharedStatus_ = sharedStatus;
+		sharedStatus_ = std::move(sharedStatus);
 		initializeParameter();
 	}
 

@@ -8,7 +8,7 @@ namespace Battle
 	class BattleCharacter : public AbstractBattleCharacter
 	{
 	public:
-		BattleCharacter(SharedCharacterStatus *sharedStatus);
+		BattleCharacter(std::shared_ptr<::SharedCharacterStatus> sharedStatus);
 		~BattleCharacter();
 
 		void pressedKeyUp();
