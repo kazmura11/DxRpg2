@@ -21,12 +21,12 @@ namespace Sequence
 		namespace Map
 		{
 #ifdef CHARCHIP32X48  // 32x48 charachip
-			const int SlidePicVal = 16;  // vertical slide pixel
+			constexpr int SlidePicVal = 16;  // vertical slide pixel
 #else  // 32x32 charachip
-			const int SlidePicVal = 0;  // vertical slide pixel
+			constexpr int SlidePicVal = 0;  // vertical slide pixel
 #endif
-			const int MapNum = 2;
-			const char MapFile[MapNum][MAX_PATH + 1] =
+			constexpr int MapNum = 2;
+			constexpr char MapFile[MapNum][MAX_PATH + 1] =
 			{
 				"resources/csv/map/20x16/0.txt",
 				"resources/csv/map/20x16/1.txt"
@@ -53,7 +53,7 @@ namespace Sequence
 				
 				Util::ResourceLoader &rl_;
 				std::unique_ptr<Util::CsvMapReader> cmr_;
-				int isPassable_[YBlock * XBlock];   // passable
+				PassFlag isPassable_[YBlock * XBlock];   // passable
 				int mapStage_;
 				bool hasChanged_;
 				NextSequence nextSequence_;

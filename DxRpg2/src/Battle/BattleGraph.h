@@ -7,15 +7,15 @@ namespace Util
 }
 namespace Battle
 {
-	const int  BattleStringLenMax = 32;
+	constexpr int  BattleStringLenMax = 32;
 
-	const int  MenuNum = 3;
-	const int  SubMenuNum = 5;
+	constexpr int  MenuNum = 3;
+	constexpr int  SubMenuNum = 5;
 
-	const char Main[MenuNum][BattleStringLenMax] =
+	constexpr char Main[MenuNum][BattleStringLenMax] =
 	{ "攻撃", "魔法", "逃げる" };
 
-	const char Sub[MenuNum][SubMenuNum][BattleStringLenMax] =
+	constexpr char Sub[MenuNum][SubMenuNum][BattleStringLenMax] =
 	{
 		{ "通常攻撃", "テクニカルアタック", "", "", "" },
 		{ "キュア", "エアー", "ファイア", "フリーザ", "サンダー" },

@@ -13,38 +13,39 @@
 #include <cstdio>
 
 // Constant
-const double PI = 3.14159265358979;
-const int WindWidth = 640;
-const int WindHeight= 480;
-const int BlockLen = 32;  // block area size (32x32)
-const int MapWidth = 640 + 32;  // Window Size X
-const int MapHeight = 480;  // Window Size Y
-const int XBlock = MapWidth / BlockLen;  // horizon 20
-const int YBlock = MapHeight / BlockLen; // vertical 15
+constexpr double PI = 3.14159265358979;
+constexpr int WindWidth = 640;
+constexpr int WindHeight= 480;
+constexpr int BlockLen = 32;  // block area size (32x32)
+constexpr int MapWidth = 640 + 32;  // Window Size X
+constexpr int MapHeight = 480;  // Window Size Y
+constexpr int XBlock = MapWidth / BlockLen;  // horizon 20
+constexpr int YBlock = MapHeight / BlockLen; // vertical 15
 
-const int CharKindMax = 4;  // number of character kind (main + city character)
-const int CompCharMax = 8;  // number of city character
-const int ImgCharDivNum = 12;  // number of character parts
-const int DivisionNum = 4;
-const int AtbCntMax = 240;
-const int ImgStartBattleDivNum = 16;
+constexpr int CharKindMax = 4;  // number of character kind (main + city character)
+constexpr int CompCharMax = 8;  // number of city character
+constexpr int ImgCharDivNum = 12;  // number of character parts
+constexpr int DivisionNum = 4;
+constexpr int AtbCntMax = 240;
+constexpr int ImgStartBattleDivNum = 16;
 
-const int MessageLenMax = 128;
+constexpr int MessageLenMax = 128;
 
-const int MainCharIndex  = 0;
+constexpr int MainCharIndex  = 0;
 
-enum PassFlag {
-	Through = 0,
-	MainCharOnly = 1,
-	NoThrough = 2	
+enum class PassFlag
+{
+	Through,
+	MainCharOnly,
+	NoThrough,	
 };
 
-enum Direction
+enum class Direction
 {
 	Down = 0,
 	Left = 1,
 	Right = 2,
-	Up = 3
+	Up = 3,
 };
 
 #ifdef _DEBUG

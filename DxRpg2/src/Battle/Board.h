@@ -3,7 +3,7 @@
 
 namespace Battle
 {
-	const int BoardMax = 100;
+	constexpr int BoardMax = 100;
 
 	class Board
 	{

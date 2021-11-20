@@ -2,7 +2,7 @@
 
 namespace Map
 {
-	void MapCityCharacter::initMapState(int tx, int ty, int dir, int kind)
+	void MapCityCharacter::initMapState(int tx, int ty, Direction dir, int kind)
 	{
 		x_ = tx;
 		y_ = ty;
@@ -18,7 +18,7 @@ namespace Map
 		stop();  // 歩数0
 	}
 
-	bool MapCityCharacter::move(int *isPassable)
+	bool MapCityCharacter::move(PassFlag *isPassable)
 	{
 		setPosition();  // キャラクタ位置の決定
 		// xもyも座標が１区画の倍数のとき
@@ -27,20 +27,20 @@ namespace Map
 			stop();  // 歩くカウンタを戻す
 			if (GetRand(WalkRand) == 0)  // 歩き始める
 			{
-				dir_ = GetRand(3);  // ランダムに方向を決定 0-3
+				dir_ = static_cast<Direction>(DxLib::GetRand(3));  // ランダムに方向を決定 0-3
 				// current position
 				int cy = y_ / BlockLen;
 				int cx = x_ / BlockLen;
 				// next position
-				int ny = y_ / BlockLen + OffsetY[dir_];
-				int nx = x_ / BlockLen + OffsetX[dir_];
+				int ny = y_ / BlockLen + OffsetY[static_cast<int>(dir_)];
+				int nx = x_ / BlockLen + OffsetX[static_cast<int>(dir_)];
 
 				if (canMove(isPassable[ny * XBlock + nx]))
 				{
 					// 現在位置を通れるものにして、向かう位置を通れるないものとする
 					walkFlag_ = true;
-					isPassable[cy * XBlock + cx] = Through;
-					isPassable[ny * XBlock + nx] = NoThrough;
+					isPassable[cy * XBlock + cx] = PassFlag::Through;
+					isPassable[ny * XBlock + nx] = PassFlag::NoThrough;
 				}
 				else  // 向いてる方向が通れない場所なら
 				{

@@ -3,8 +3,8 @@
 
 namespace Battle
 {
-	const int BattleCharPosX1 = 500;
-	const int BattleCharPosY1 = 200;
+	constexpr int BattleCharPosX1 = 500;
+	constexpr int BattleCharPosY1 = 200;
 	class BattleCharacter : public AbstractBattleCharacter
 	{
 	public:

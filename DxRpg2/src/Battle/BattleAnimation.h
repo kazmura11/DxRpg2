@@ -9,8 +9,8 @@ namespace Battle
 	class AbstractBattleCharacter;
 	class BattleCharacter;
 	class BattleMonster;
-	const int PopDamMax = 20;
-	const int AnimationMax = 30;
+	constexpr int PopDamMax = 20;
+	constexpr int AnimationMax = 30;
 
 	struct PopDamage
 	{

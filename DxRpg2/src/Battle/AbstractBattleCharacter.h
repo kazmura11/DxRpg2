@@ -3,8 +3,8 @@
 
 namespace Battle
 {
-	const int AbilityMax = 5;
-	const int DamagePointMax = 200;
+	constexpr int AbilityMax = 5;
+	constexpr int DamagePointMax = 200;
 	const int UseMp[] = { 9, 8, 16, 24, 32 };
 
 	struct Status

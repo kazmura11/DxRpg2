@@ -3,14 +3,14 @@
 
 namespace
 {
-	const int	MapTipNum = 4;  // number of mapchip
-	const int	BackGroundNum = 20;  // number of background
-	const int	MonsterNum = 10;
-	const int	ImgNumberKind = 5;
-	const int	ImgNumberDivNum = 10;
-	const int	ImgAnimationKind = 10;
-	const int	ImgAnimationDivNum = 25;
-	const int	ImgEtcNum = 5;
+	constexpr int	MapTipNum = 4;  // number of mapchip
+	constexpr int	BackGroundNum = 20;  // number of background
+	constexpr int	MonsterNum = 10;
+	constexpr int	ImgNumberKind = 5;
+	constexpr int	ImgNumberDivNum = 10;
+	constexpr int	ImgAnimationKind = 10;
+	constexpr int	ImgAnimationDivNum = 25;
+	constexpr int	ImgEtcNum = 5;
 }
 
 namespace Util
