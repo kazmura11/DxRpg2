@@ -9,10 +9,10 @@ namespace Sequence
 	{
 		Parent::Parent()
 			: nextSequence_(NextSequence::NextNone), mapStage_(0),
-			sharedStatus_(std::make_unique<::SharedCharacterStatus>())
+			sharedStatus_(std::make_shared<::SharedCharacterStatus>())
 		{
 			sharedStatus_->initialize();
-			child_ = std::make_unique<Map::Map>(sharedStatus_.get(), mapStage_);
+			child_ = std::make_unique<Map::Map>(sharedStatus_, mapStage_);
 		}
 
 		Parent::~Parent()
@@ -26,11 +26,11 @@ namespace Sequence
 			{
 			case NextSequence::NextMapMain:
 				child_.reset();
-				child_ = std::make_unique<Map::Map>(sharedStatus_.get(), mapStage_);
+				child_ = std::make_unique<Map::Map>(sharedStatus_, mapStage_);
 				break;
 			case NextSequence::NextBattle:
 				child_.reset();
-				child_ = std::make_unique<Battle::Battle>(sharedStatus_.get());
+				child_ = std::make_unique<Battle::Battle>(sharedStatus_);
 				break;
 			case NextSequence::NextRestart:
 				grandParent->moveTo(GrandParent::NextSequence::NextMap);

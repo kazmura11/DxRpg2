@@ -1,8 +1,8 @@
+#include "StdCommon.h"
 #include "Battle/BattleAnimation.h"
 #include "Battle/BattleCharacter.h"
 #include "Battle/BattleMonster.h"
 #include "Util/ResourceLoader.h"
-#include "StdCommon.h"
 
 namespace Battle
 {

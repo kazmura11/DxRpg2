@@ -7,17 +7,12 @@ namespace Battle
 {
 	BattleMonster::BattleMonster()
 	{
-		// “G‚Ìê‡‚Í–ˆ“xHP“™‚±‚±‚Åì¬‚·‚é
-		sharedStatus_ = new ::SharedCharacterStatus();  // memory leak warning
+		sharedStatus_ = std::make_shared<::SharedCharacterStatus>();  // “G‚Ìê‡‚Í–ˆ“xHP“™‚±‚±‚Åì¬‚·‚é
 		initializeParameter();
 	}
 
 	BattleMonster::~BattleMonster()
 	{
-		if (sharedStatus_ != NULL) {
-			delete sharedStatus_;  // TODO: ‚±‚±‚Ç‚¤‚µ‚æ‚¤
-			sharedStatus_ = NULL;
-		}
 	}
 
 	void BattleMonster::initializeParameter()

@@ -1,5 +1,6 @@
 #pragma once
 #include "SharedCharacterStatus.h"  // 不完全クラス型へのポインターが参照できないそうなので
+#include <memory>
 
 namespace Battle
 {
@@ -138,6 +139,6 @@ namespace Battle
 		int centerX_;
 		int centerY_;
 
-		::SharedCharacterStatus *sharedStatus_;
+		std::shared_ptr<::SharedCharacterStatus> sharedStatus_;
 	};
 }

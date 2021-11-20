@@ -13,11 +13,11 @@ namespace Sequence
 		namespace Battle
 		{
 
-			Battle::Battle(SharedCharacterStatus *sharedStatus) :
+			Battle::Battle(std::shared_ptr<::SharedCharacterStatus> sharedStatus) :
 				gc_(Util::GameController::getInstance()),
 				rl_(Util::ResourceLoader::getInstance()),
 				chr_(std::make_unique<::Battle::BattleCharacter>(sharedStatus)),
-				mon_(std::make_unique <::Battle::BattleMonster > ()),
+				mon_(std::make_unique<::Battle::BattleMonster>()),
 				randX_{}, randY_{}, startBattleX_{}, startBattleY_{}
 			{
 				// ƒLƒƒƒ‰Ží•Ê‚ðŠO‚©‚çÝ’è
@@ -39,7 +39,7 @@ namespace Sequence
 				mon_->setCenterX(mon_->getX() + axisMonX / 2);
 				mon_->setCenterY(mon_->getY() + axisMonY / 2);
 
-				bp_.reset(new ::Battle::BattleProcess(chr_.get(), mon_.get()));  // memory leak warning
+				bp_ = std::make_unique<::Battle::BattleProcess>(chr_.get(), mon_.get());
 
 				for (int i = 0; i < ImgCharDivNum; i++)
 				{

@@ -11,11 +11,11 @@ namespace Sequence
 	{
 		namespace Map
 		{
-			Map::Map(SharedCharacterStatus *scs, int stage)
+			Map::Map(std::shared_ptr<::SharedCharacterStatus> scs, int stage)
 				: hasChanged_(true), mapStage_(stage), nextSequence_(NextSequence::NextMap),
 				 rl_(Util::ResourceLoader::getInstance()),
 				 cmr_(std::make_unique<Util::CsvMapReader>()),
-				 scs_(scs)
+				 scs_(std::move(scs))
 			{
 				// create character instance
 				mapMainChar_ = std::make_unique<::Map::MapMainCharacter>();

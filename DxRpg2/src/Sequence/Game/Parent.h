@@ -29,7 +29,7 @@ namespace Sequence
 		private:
 			NextSequence nextSequence_;
 			std::unique_ptr<Game::IChild> child_;
-			std::unique_ptr<::SharedCharacterStatus> sharedStatus_;
+			std::shared_ptr<::SharedCharacterStatus> sharedStatus_;
 			int  mapStage_;
 		};
 	}
