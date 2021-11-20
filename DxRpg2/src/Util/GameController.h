@@ -2,10 +2,10 @@
 #include <climits>
 namespace
 {
-	const int	MetricTimes = 60;   // FPS
-	const int	OneFrameMillsec = 16;   // millsec per frame (16ms)
-	const int	GCountMax = INT_MAX;   // global counter
-	const int	KeyKindNum = 256;
+	constexpr int	MetricTimes = 60;   // FPS
+	constexpr int	OneFrameMillsec = 16;   // millsec per frame (16ms)
+	constexpr int	GCountMax = INT_MAX;   // global counter
+	constexpr int	KeyKindNum = 256;
 }
 
 namespace Util
@@ -19,7 +19,8 @@ namespace Util
 		GameController(GameController&&) = delete;
 		GameController& operator=(GameController&&) = delete;
 
-		enum KeyState {
+		enum class KeyState
+		{
 			NotPressed = 0,
 			Pressed = 1,
 			PressedNow = 2

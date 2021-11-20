@@ -11,7 +11,7 @@ namespace Map
 		MapCityCharacter() { }
 		~MapCityCharacter() override { }
 
-		void initMapState(int tx, int ty, int dir, int kind) override;
-		bool move(int *isPassable) override;
+		void initMapState(int tx, int ty, Direction dir, int kind) override;
+		bool move(PassFlag *isPassable) override;
 	};
 }

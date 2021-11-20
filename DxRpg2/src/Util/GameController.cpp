@@ -55,54 +55,53 @@ namespace Util
 
 	bool GameController::keyNotPressed(int input) const
 	{
-		return getKey(input) == Util::GameController::NotPressed;
+		return getKey(input) == static_cast<char>(Util::GameController::KeyState::NotPressed);
 	}
 
 	bool GameController::keyPressed(int input) const
 	{
-		return getKey(input) == Util::GameController::Pressed
-			|| getKey(input) == Util::GameController::PressedNow;
+		return getKey(input) == static_cast<char>(Util::GameController::KeyState::Pressed)
+			|| getKey(input) == static_cast<char>(Util::GameController::KeyState::PressedNow);
 	}
 
 	bool GameController::escapeNotPressed() const
 	{
-		return getKey(KEY_INPUT_ESCAPE) == NotPressed;
+		return getKey(KEY_INPUT_ESCAPE) == static_cast<char>(KeyState::NotPressed);
 	}
 
 	bool GameController::eNotPressed() const
 	{
-		return getKey(KEY_INPUT_E) == Util::GameController::NotPressed;
+		return getKey(KEY_INPUT_E) == static_cast<char>(Util::GameController::KeyState::NotPressed);
 	}
-
 
 	bool GameController::bPressed() const
 	{
-		return getKey(KEY_INPUT_B) == Util::GameController::Pressed;
+		return getKey(KEY_INPUT_B) == static_cast<char>(Util::GameController::KeyState::Pressed);
 	}
 	bool GameController::fPressed() const
 	{
-		return getKey(KEY_INPUT_F) == Util::GameController::Pressed;
+		return getKey(KEY_INPUT_F) == static_cast<char>(Util::GameController::KeyState::Pressed);
 	}
 
 
 	bool GameController::upPressedNow() const
 	{
-		return getKey(KEY_INPUT_UP) == Util::GameController::PressedNow;
+		return getKey(KEY_INPUT_UP) == static_cast<char>(Util::GameController::KeyState::PressedNow);
 	}
 
 	bool GameController::downPressedNow() const
 	{
-		return getKey(KEY_INPUT_DOWN) == Util::GameController::PressedNow;
+		return getKey(KEY_INPUT_DOWN) == static_cast<char>(Util::GameController::KeyState::PressedNow);
 	}
 
 	bool GameController::xPressedNow() const
 	{
-		return getKey(KEY_INPUT_X) == Util::GameController::PressedNow;
+		return getKey(KEY_INPUT_X) == static_cast<char>(Util::GameController::KeyState::PressedNow);
 	}
 
 	bool GameController::zPressedNow() const
 	{
-		return getKey(KEY_INPUT_Z) == Util::GameController::PressedNow;
+		return getKey(KEY_INPUT_Z) == static_cast<char>(Util::GameController::KeyState::PressedNow);
 	}
 
 	int GameController::getAllKeyPressed()
@@ -130,9 +129,10 @@ namespace Util
 		for (int i = 0; i < KeyKindNum; i++)
 		{
 			// compare previous state with current state
-			if (prevKey_[i] == NotPressed && key_[i] == Pressed)
+			if (prevKey_[i] == static_cast<char>(KeyState::NotPressed)
+				&& key_[i] == static_cast<char>(KeyState::Pressed))
 			{
-				key_[i] = PressedNow;  // if change state, set pressed state
+				key_[i] = static_cast<char>(KeyState::PressedNow);  // if change state, set pressed state
 			}
 			prevKey_[i] = key_[i];
 		}

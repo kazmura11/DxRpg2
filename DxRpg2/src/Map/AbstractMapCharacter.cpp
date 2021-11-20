@@ -3,7 +3,7 @@
 namespace Map
 {
 	AbstractMapCharacter::AbstractMapCharacter()
-		: x_(0), y_(0), walkPixel_(0), walkFlag_(false), dir_(0),
+		: x_(0), y_(0), walkPixel_(0), walkFlag_(false), dir_(Direction::Down),
 		flag_(0), img_(0), imgFlag_(0), kind_(0),
 		animePicPos_(0), walkSpeed_(DefWalkSpeed)
 	{
@@ -29,7 +29,7 @@ namespace Map
 		return imgFlag_;
 	}
 
-	int AbstractMapCharacter::getDir() const
+	Direction AbstractMapCharacter::getDir() const
 	{
 		return dir_;
 	}
@@ -68,12 +68,12 @@ namespace Map
 		if (walkFlag_)
 		{
 			// walkSpeed分だけ方向に対してキャラの座標を増減する。
-			x_ = x_ + OffsetX[dir_] * walkSpeed_;
-			y_ = y_ + OffsetY[dir_] * walkSpeed_;
+			x_ = x_ + OffsetX[static_cast<int>(dir_)] * walkSpeed_;
+			y_ = y_ + OffsetY[static_cast<int>(dir_)] * walkSpeed_;
 		}
 	}
 
-	int AbstractMapCharacter::decideAnimePic(int walkPixel, int dir)
+	int AbstractMapCharacter::decideAnimePic(int walkPixel, Direction dir)
 	{
 		int axisX;
 		int axisY;
@@ -88,23 +88,23 @@ namespace Map
 		//真ん中が静止画像なので補正する(ここで0は静止扱いである)
 		axisX = axisX == 0 ? 1 : axisX - 1;
 		// アニメーションの向きを特定(画像のy方向[1次元配列])
-		axisY = dir * 3;
+		axisY = static_cast<int>(dir) * 3;
 		// 0～2は下向き画像、3～5は左向き画像、
 		// 6～8は右向き画像、9～11は上向き画像･･･と数値を変換
 		return axisX + axisY;
 	}
 
-	bool AbstractMapCharacter::canMove(int isPassable)
+	bool AbstractMapCharacter::canMove(PassFlag isPassable)
 	{
 		// 主人公
 		if (kind_ == MainCharIndex)
 		{
-			return !(isPassable == NoThrough);
+			return !(isPassable == PassFlag::NoThrough);
 		}
 		// 町キャラ
 		else
 		{
-			return !(isPassable >= MainCharOnly);
+			return !(isPassable >= PassFlag::MainCharOnly);
 		}
 	}
 

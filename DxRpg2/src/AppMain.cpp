@@ -16,12 +16,8 @@ int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 		if (DxLib::ChangeWindowMode(TRUE) != DX_CHANGESCREEN_OK
 			|| DxLib::DxLib_Init() == -1
 			|| DxLib::SetWindowSizeExtendRate(1.0) == -1
-			|| DxLib::SetMouseDispFlag(FALSE) == -1)
-		{
-			return -1;
-		}
-		// set drawing back screen
-		if (DxLib::SetDrawScreen(DX_SCREEN_BACK) == -1)
+			|| DxLib::SetMouseDispFlag(FALSE) == -1
+			|| DxLib::SetDrawScreen(DX_SCREEN_BACK) == -1)
 		{
 			return -1;
 		}
@@ -46,8 +42,9 @@ int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 			DxLib::ScreenFlip();  // draw from the background to the frontground
 		}
 		DxLib::DxLib_End();
-	} // Ç±ÇÍÇ≈àÕÇÌÇ»Ç¢Ç∆RAIIÇ™å¯Ç≠ëOÇ»ÇÃÇ≈ÉÅÉÇÉäÉäÅ[ÉNàµÇ¢Ç…Ç»ÇÈ
-	
+	}
+#ifdef _DEBUG
 	_CrtDumpMemoryLeaks();
+#endif
 	return 0;
 }

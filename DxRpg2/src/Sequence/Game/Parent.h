@@ -13,7 +13,8 @@ namespace Sequence
 		class Parent : public Sequence::IChild
 		{
 		public:
-			enum class NextSequence{
+			enum class NextSequence
+			{
 				NextMapMain,
 				NextBattle,
 				NextRestart,

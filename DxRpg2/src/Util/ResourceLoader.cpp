@@ -3,7 +3,7 @@
 
 namespace Util
 {
-	const float  LoadNum = 32.0;  // number of calling dispProgress()
+	constexpr float  LoadNum = 32.0;  // number of calling dispProgress()
 
 	ResourceLoader &ResourceLoader::getInstance()
 	{

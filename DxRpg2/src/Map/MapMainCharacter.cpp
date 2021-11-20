@@ -11,7 +11,7 @@ namespace Map
 		// 基底メンバの一部初期化
 		x_ = 10 * BlockLen;
 		y_ = 7 * BlockLen;
-		dir_ = Down;
+		dir_ = Direction::Down;
 		kind_ = 0;
 	}
 
@@ -19,7 +19,7 @@ namespace Map
 	{
 	}
 
-	void MapMainCharacter::initMapState(int tx, int ty, int dir, int kind)
+	void MapMainCharacter::initMapState(int tx, int ty, Direction dir, int kind)
 	{
 		encCnt_ = 0;
 		prevX_ = tx;
@@ -31,11 +31,12 @@ namespace Map
 		imgFlag_ = true;
 		kind_ = kind;
 		walkPixel_ = 0;
-		walkFlag_ = false; animePicPos_ = dir * 4;
+		walkFlag_ = false;
+		animePicPos_ = static_cast<int>(dir) * 4;
 		stop();  // 歩数0
 	}
 
-	bool MapMainCharacter::move(int *isPassable)
+	bool MapMainCharacter::move(PassFlag *isPassable)
 	{
 		bool enc = false;
 
@@ -96,7 +97,7 @@ namespace Map
 		return enc;
 	}
 
-	void MapMainCharacter::updatePassable(Util::GameController &gc, int *isPassable) {
+	void MapMainCharacter::updatePassable(Util::GameController &gc, PassFlag *isPassable) {
 		// 下、左、右、上
 		const int InputKeyDirection[4] =
 		{
@@ -110,13 +111,13 @@ namespace Map
 			// 入力キーの判定
 			if (gc.keyPressed(InputKeyDirection[i]))
 			{
-				dir_ = i;  // 入力されているキーの方向にdirをセットする
+				dir_ = static_cast<Direction>(i);  // 入力されているキーの方向にdirをセットする
 				// current position
 				int cy = y_ / BlockLen;
 				int cx = x_ / BlockLen;
 				// next position
-				int ny = y_ / BlockLen + OffsetY[dir_];
-				int nx = x_ / BlockLen + OffsetX[dir_];
+				int ny = y_ / BlockLen + OffsetY[static_cast<int>(dir_)];
+				int nx = x_ / BlockLen + OffsetX[static_cast<int>(dir_)];
 				// 向いてる方向が通れる場所なら
 				if (canMove(isPassable[ny * XBlock + nx]))
 				{
@@ -128,11 +129,11 @@ namespace Map
 						|| cx == 0 || cx == 1 || cx == XBlock - 2 || cx == XBlock - 1;
 					if (ConditionCur)
 					{
-						isPassable[cy * XBlock + cx] = MainCharOnly; // main character's spacial logic
+						isPassable[cy * XBlock + cx] = PassFlag::MainCharOnly; // main character's spacial logic
 					}
 					else
 					{
-						isPassable[cy * XBlock + cx] = Through;  // set status to anyone can walk
+						isPassable[cy * XBlock + cx] = PassFlag::Through;  // set status to anyone can walk
 					}
 					// 次の場所の処理
 					// 次のマスが四隅なら
@@ -141,11 +142,11 @@ namespace Map
 						|| nx == 0 || nx == 1 || nx == XBlock - 2 || nx == XBlock - 1;
 					if (ConditionOuter)
 					{
-						isPassable[ny * XBlock + nx] = MainCharOnly; // main character's spacial logic
+						isPassable[ny * XBlock + nx] = PassFlag::MainCharOnly; // main character's spacial logic
 					}
 					else
 					{
-						isPassable[ny * XBlock + nx] = NoThrough;
+						isPassable[ny * XBlock + nx] = PassFlag::NoThrough;
 					}
 				}
 				else  // 向いてる方向が通れない場所なら

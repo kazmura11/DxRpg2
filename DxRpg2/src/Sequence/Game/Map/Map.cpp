@@ -26,7 +26,7 @@ namespace Sequence
 				}
 				for (int i = 0; i < YBlock * XBlock; i++)
 				{
-					isPassable_[i] = Through;
+					isPassable_[i] = PassFlag::Through;
 				}
 			}
 
@@ -60,7 +60,7 @@ namespace Sequence
 					{
 						if (cmr_->getMapData(x, y) > 1)  // if not passable
 						{
-							isPassable_[y * XBlock + x] = NoThrough;  // set not passable
+							isPassable_[y * XBlock + x] = PassFlag::NoThrough;  // set not passable
 						}
 						// if passable
 						else
@@ -71,11 +71,11 @@ namespace Sequence
 								|| x == 0 || x == 1 || x == XBlock - 2 || x == XBlock - 1)
 							{
 								// Only main character can move to "map change block".
-								isPassable_[y * XBlock + x] = MainCharOnly;
+								isPassable_[y * XBlock + x] = PassFlag::MainCharOnly;
 							}
 							else
 							{
-								isPassable_[y * XBlock + x] = Through;
+								isPassable_[y * XBlock + x] = PassFlag::Through;
 							}
 						}
 					}
@@ -87,11 +87,11 @@ namespace Sequence
 				// deploy character each position
 				int tx = mapMainChar_->getX();
 				int ty = mapMainChar_->getY();
-				int dir = mapMainChar_->getDir();
+				Direction dir = mapMainChar_->getDir();
 				int kind = 0;  // 0 for main character
 				mapMainChar_->initMapState(tx, ty, dir, kind);
 				// set not passable
-				isPassable_[ty / BlockLen * XBlock + tx / BlockLen] = NoThrough;
+				isPassable_[ty / BlockLen * XBlock + tx / BlockLen] = PassFlag::NoThrough;
 				for (int i = 0; i < CompCharMax;)
 				{
 					// 4 corners + and its inner block (outer 2 blocks) => not passable
@@ -99,17 +99,17 @@ namespace Sequence
 					// -4 => 0,1,MaxPos-2, MaxPos-1
 					int rx = DxLib::GetRand(XBlock - 5) + 2;
 					int ry = DxLib::GetRand(YBlock - 5) + 2;
-					if (isPassable_[ry * XBlock + rx] == MainCharOnly
-						|| isPassable_[ry * XBlock + rx] == NoThrough)
+					if (isPassable_[ry * XBlock + rx] == PassFlag::MainCharOnly
+						|| isPassable_[ry * XBlock + rx] == PassFlag::NoThrough)
 					{
 						continue;  // recalculate...
 					}
 					tx = rx * BlockLen;
 					ty = ry * BlockLen;
-					dir = DxLib::GetRand(3);  // direction of charchip 0-3
+					dir = static_cast<Direction>(DxLib::GetRand(3));  // direction of charchip 0-3
 					kind = i % (CharKindMax - 1) + 1;  // character kind 1-3
 					mapCityChar_[i]->initMapState(tx, ty, dir, kind);
-					isPassable_[ty / BlockLen * XBlock + tx / BlockLen] = NoThrough;
+					isPassable_[ty / BlockLen * XBlock + tx / BlockLen] = PassFlag::NoThrough;
 					i++;
 				}
 				hasChanged_ = false;
@@ -206,7 +206,7 @@ namespace Sequence
 						sprintf(buf1, "%d", cmr_->getMapData(x, y));
 						sprintf(buf2, "%d", isPassable_[y * XBlock + x]);
 						int color1 = DxLib::GetColor(255, 255, 255);
-						int color2 = isPassable_[y * XBlock + x] == 2 ? DxLib::GetColor(255, 0, 0) :
+						int color2 = isPassable_[y * XBlock + x] == PassFlag::NoThrough ? DxLib::GetColor(255, 0, 0) :
 								DxLib::GetColor(0, 0, 255);
 						DxLib::DrawString(
 							x * BlockLen + ofsX + slide1,
