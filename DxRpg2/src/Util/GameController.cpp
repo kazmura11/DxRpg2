@@ -11,40 +11,33 @@ namespace Util
 
 	void GameController::calcFps()
 	{
-		fps_[gCount_ % MetricTimes] = waitTime_;
-		// if gCount_ reached to metric times... update avarage speed;
-		if ((gCount_ % MetricTimes) == (MetricTimes - 1))
-		{
-			frameSpdAvg_ = 0;
-			for (int i = 0; i < MetricTimes; i++)
-			{
-				frameSpdAvg_ += fps_[i];
-			}
-			frameSpdAvg_ /= MetricTimes;
+		if (countForFPS_ == 0) {
+			prevTime_ = DxLib::GetNowCount();
 		}
+		if (countForFPS_ == MetricTimes) {
+			int t = DxLib::GetNowCount();
+			framePerSecond_ = 1000.f / ((t - prevTime_) / static_cast<float>(MetricTimes));
+			countForFPS_ = 0;
+			prevTime_ = t;
+		}
+		countForFPS_++;
 	}
 
-	void GameController::graphFps()
+	void GameController::drawFps()
 	{
-		if (frameSpdAvg_ != 0)	// avoid dividing by zero
+		if (framePerSecond_ != 0)	// avoid dividing by zero
 		{
 			DxLib::DrawFormatString(0, 0, static_cast<int>(DxLib::GetColor(255, 255, 255)),
-				"FPS %.1f", 1000.0 / (double)(frameSpdAvg_));
+				"FPS %.1f", framePerSecond_);
 		}
 	}
 
 	void GameController::controlFps()
 	{
-		waitTime_ = DxLib::GetNowCount() - prevTime_; // calculate 1 loop time
-		if (prevTime_ == 0)
-		{
-			waitTime_ = OneFrameMillsec;
-		}
-		prevTime_ = DxLib::GetNowCount();  // set current time
-		// adjust to 60 fps
-		if (OneFrameMillsec > waitTime_)
-		{
-			Sleep(static_cast<DWORD>(OneFrameMillsec - waitTime_));
+		int elapsedTime = DxLib::GetNowCount() - prevTime_; // calculate 1 loop time
+		int waitTime = countForFPS_ * 1000 / FPS - elapsedTime;
+		if (waitTime > 0) {
+			Sleep(waitTime);
 		}
 	}
 
@@ -109,15 +102,6 @@ namespace Util
 		return DxLib::GetHitKeyStateAll(key_);
 	}
 
-	void GameController::increaseGCount()
-	{
-		gCount_++;
-		if (gCount_ >= GCountMax)
-		{
-			gCount_ = 0;
-		}
-	}
-
 	int GameController::getGCount() const
 	{
 		return gCount_;
@@ -141,11 +125,16 @@ namespace Util
 	// call from main loop
 	void GameController::control()
 	{
-		controlFps();  // keep 60 fps
-#ifdef _DEBUG
 		calcFps();
-		graphFps();
+#ifdef _DEBUG
+		drawFps();
 #endif
-		increaseGCount();
+		controlFps();  // keep 60 fps
+
+		gCount_++;
+		if (gCount_ >= GCountMax)
+		{
+			gCount_ = 0;
+		}
 	}
 }

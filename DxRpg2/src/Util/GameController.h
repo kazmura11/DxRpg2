@@ -2,8 +2,8 @@
 #include <climits>
 namespace
 {
-	constexpr int	MetricTimes = 60;   // FPS
-	constexpr int	OneFrameMillsec = 16;   // millsec per frame (16ms)
+	constexpr int	FPS = 60;   // FPS
+	constexpr int	MetricTimes = 30;   // times to calculate avg
 	constexpr int	GCountMax = INT_MAX;   // global counter
 	constexpr int	KeyKindNum = 256;
 }
@@ -42,26 +42,25 @@ namespace Util
 		
 		int getAllKeyPressed();
 
-		void increaseGCount();
 		int getGCount() const;
 
 		void adjustKeyState();
 		void control();
 
 	private:
-		GameController() : fps_{}, frameSpdAvg_(0), gCount_(0), key_{ 0 }, prevKey_{ 0 } {};
+		GameController() : framePerSecond_(0), gCount_(0), key_{ 0 }, prevKey_{ 0 } {};
 		~GameController() {};
 		
 		char getKey(int input) const;
 		void calcFps();
-		void graphFps();
+		void drawFps();
 		void controlFps();
 
 		int gCount_;
-		int frameSpdAvg_;  // avarage frame speed
-		int waitTime_;  // for adjusting fps
+		int countForFPS_;
+		float framePerSecond_;  // avarage frame speed
+		//int elapsedTime_;  // for adjusting fps
 		int prevTime_;
-		int fps_[MetricTimes];
 		char key_[KeyKindNum];
 		char prevKey_[KeyKindNum];
 	};
