@@ -39,18 +39,18 @@ namespace Battle
 		void drawBottomWindow() const;
 		void drawMonsterImage(BattleMonster *mon) const;
 		void drawCharacterImage(BattleCharacter *chr) const;
-		void graphMonsterBar(BattleMonster *mon);
-		void graphCharacterBar(BattleCharacter *chr);
+		void drawMonsterBar(BattleMonster *mon);
+		void drawCharacterBar(BattleCharacter *chr);
 
-		void graphMenu(BattleCharacter *chr);
-		void graphGameover() const;
-		void graphWin() const;
+		void drawMenu(BattleCharacter *chr);
+		void drawGameover() const;
+		void drawWin() const;
 
 	private:
 		Util::GameController &gc_;
 		Util::ResourceLoader &rl_;
 
-		void graphBar(int x, int y, int hp, int hpMax, int mp, int mpMax, int atbCnt, int dp);
+		void drawBar(int x, int y, int hp, int hpMax, int mp, int mpMax, int atbCnt, int dp);
 		void decorateMeter(int x, int y, int h, int len);
 		char *decideBoardString(char *message, BattleCharacter *chr);
 	};

@@ -47,30 +47,30 @@ namespace Battle
 			TRUE);
 	}
 
-	void BattleGraph::graphMonsterBar(BattleMonster *mon)
+	void BattleGraph::drawMonsterBar(BattleMonster *mon)
 	{
 		// メータの開始位置の座標
 		const int MonMtX = 15;
 		const int MonMtY = 370;
-		graphBar(MonMtX, MonMtY,
+		drawBar(MonMtX, MonMtY,
 			mon->getHp(), mon->getHpMax(),
 			mon->getMp(), mon->getMpMax(),
 			mon->getAtbCnt(), -1);
 	}
 
-	void BattleGraph::graphCharacterBar(BattleCharacter *chr)
+	void BattleGraph::drawCharacterBar(BattleCharacter *chr)
 	{
 		// メータの開始位置の座標
 		const int ChrMtX = 250;
 		const int ChrMtY = 370;
-		graphBar(ChrMtX, ChrMtY,
+		drawBar(ChrMtX, ChrMtY,
 			chr->getHp(), chr->getHpMax(),
 			chr->getMp(), chr->getMpMax(),
 			chr->getAtbCnt(), chr->getDamagePoint()
 		);
 	}
 
-	void BattleGraph::graphBar(int x, int y, int hp, int hpMax,
+	void BattleGraph::drawBar(int x, int y, int hp, int hpMax,
 		int mp, int mpMax, int atbCnt, int damagePoint)
 	{
 		const int MeterHeight = 5;
@@ -208,7 +208,7 @@ namespace Battle
 	}
 
 	// バトルのメニュー
-	void BattleGraph::graphMenu(BattleCharacter *chr)
+	void BattleGraph::drawMenu(BattleCharacter *chr)
 	{
 		const int OffsetX = 500;
 		const int OffsetY = 370;
@@ -340,7 +340,7 @@ namespace Battle
 		return message;
 	}
 
-	void BattleGraph::graphGameover() const
+	void BattleGraph::drawGameover() const
 	{
 		DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 		DxLib::DrawBox(0, 0, 640, 480, DxLib::GetColor(255, 0, 0), TRUE);
@@ -349,7 +349,7 @@ namespace Battle
 
 	}
 
-	void BattleGraph::graphWin() const
+	void BattleGraph::drawWin() const
 	{
 		DxLib::SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 		DxLib::DrawBox(0, 0, 640, 480, DxLib::GetColor(0, 255, 255), TRUE);

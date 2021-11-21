@@ -39,7 +39,7 @@ namespace Battle
 
 	}
 
-	void BattleAnimation::graphAnimation(BattleCharacter *chr, BattleMonster *mon)
+	void BattleAnimation::drawAnimation(BattleCharacter *chr, BattleMonster *mon)
 	{
 		for (int i = 0; i < AnimationMax; i++)
 		{
@@ -96,10 +96,10 @@ namespace Battle
 				}
 			}
 		}
-		graphDamage();   // Animation‚ÌŒã‚ÉDamage
+		drawDamage();   // Animation‚ÌŒã‚ÉDamage
 	}
 
-	void BattleAnimation::graphDamage()
+	void BattleAnimation::drawDamage()
 	{
 		// “r’†‚ª”ò‚ñ‚Å‚¢‚Ä‚à‚æ‚¢ break‚µ‚È‚¢B
 		for (int i = 0; i < PopDamMax; i++)

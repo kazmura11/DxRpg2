@@ -43,13 +43,13 @@ namespace Battle
 		BattleAnimation();
 		~BattleAnimation();
 		void startAnimation(int selected, int target, int actor);
-		void graphAnimation(BattleCharacter *chr, BattleMonster *mon);
+		void drawAnimation(BattleCharacter *chr, BattleMonster *mon);
 		void setPopDamage(int damage, int x, int y, int type);
 
 	private:
 		void animation0(int idx, AbstractBattleCharacter *c, int x, int y);
 		void animation1(AbstractBattleCharacter *c, int idx, int x, int y);
-		void graphDamage();
+		void drawDamage();
 		void calcDamage(int t);
 
 		Animation animation_[AnimationMax];
