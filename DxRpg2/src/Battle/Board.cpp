@@ -12,7 +12,7 @@ namespace Battle
 	{
 	}
 
-	void Board::graph()
+	void Board::draw()
 	{
 		for (int i = 0; i < BoardMax; i++)
 		{

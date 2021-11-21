@@ -25,7 +25,7 @@ namespace Battle
 		Board();
 		~Board();
 
-		void graph();
+		void draw();
 		void add(char *message);
 	};
 }

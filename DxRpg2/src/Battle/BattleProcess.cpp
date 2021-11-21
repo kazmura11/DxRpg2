@@ -59,31 +59,31 @@ namespace Battle
 		decideGameover();
 		decideWin();
 
-		graphBattle();
+		drawBattle();
 		
 		decreaseHpAction(mon_);
 		decreaseHpAction(chr_);
 		displayMeter();
 
-		ba_->graphAnimation(chr_, mon_);
+		ba_->drawAnimation(chr_, mon_);
 
-		board_->graph();
+		board_->draw();
 
 		// モーションしてなくてATBカウンタがMAXなら選択項目を描画
 		if (!chr_->getMotionFlag() && chr_->getAtbCnt() == AtbCntMax)
 		{
-			bg_->graphMenu(chr_);
+			bg_->drawMenu(chr_);
 		}
 
 		if (isGameover_)
 		{
 			// ゲームオーバー処理
-			graphGameover();
+			drawGameover();
 		}
 		else if (isWin_)
 		{
 			// 勝ったときの処理
-			graphWin();
+			drawWin();
 		}
 	}
 
@@ -362,7 +362,7 @@ namespace Battle
 		}
 	}
 
-	void BattleProcess::graphBattle()
+	void BattleProcess::drawBattle()
 	{
 		bg_->drawBackground();
 		bg_->drawBottomWindow();
@@ -373,8 +373,8 @@ namespace Battle
 
 	void BattleProcess::displayMeter()
 	{
-		bg_->graphMonsterBar(mon_);
-		bg_->graphCharacterBar(chr_);
+		bg_->drawMonsterBar(mon_);
+		bg_->drawCharacterBar(chr_);
 	}
 
 	// HP現象のモーション 一瞬で減るように改造
@@ -419,10 +419,10 @@ namespace Battle
 		return r * sigma + average;
 	}
 
-	void BattleProcess::graphGameover()
+	void BattleProcess::drawGameover()
 	{
 		static int cnt = 0;
-		bg_->graphGameover();
+		bg_->drawGameover();
 
 		cnt++;
 		if (cnt == 120)
@@ -432,11 +432,11 @@ namespace Battle
 		}
 	}
 
-	void BattleProcess::graphWin()
+	void BattleProcess::drawWin()
 	{
 		static int cnt = 0;
 
-		bg_->graphWin();
+		bg_->drawWin();
 
 		cnt++;
 		if (cnt == 120)

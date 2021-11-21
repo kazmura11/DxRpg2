@@ -47,13 +47,13 @@ namespace Battle
 
 		void decideGameover();
 		void decideWin();
-		void graphBattle();
+		void drawBattle();
 
 		void displayMeter();
 		void decreaseHpAction(AbstractBattleCharacter *c);
 
-		void graphGameover();
-		void graphWin();
+		void drawGameover();
+		void drawWin();
 
 		double genRandom(double sigma, double average);
 
